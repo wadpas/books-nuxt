@@ -566,6 +566,12 @@ const _inlineRuntimeConfig = {
           "statusCode": 307
         }
       },
+      "/auth": {
+        "redirect": {
+          "to": "/auth/login",
+          "statusCode": 307
+        }
+      },
       "/_nuxt/builds/meta/**": {
         "headers": {
           "cache-control": "public, max-age=31536000, immutable"

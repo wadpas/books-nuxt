@@ -15,5 +15,9 @@ export default defineNuxtConfig({
       // Temporary redirect using a 307 status code
       redirect: '/books',
     },
+    '/auth': {
+      // Temporary redirect using a 307 status code
+      redirect: '/auth/login',
+    },
   },
 })

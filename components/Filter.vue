@@ -1,14 +1,14 @@
 <template>
   <div class="mb-8">
-    <h3 class="text-lg font-semibold">{{ name }}</h3>
+    <h3 class="text-lg">{{ name }}</h3>
     <hr class="my-4" />
     <div class="flex flex-wrap gap-2">
       <Badge
         v-for="(filter, i) in data"
         :key="i"
-        :variant="route.query[valueKey] === filter.slug ? 'secondary' : 'outline'"
+        :variant="route.query[valueKey] === filter.slug ? 'destructive' : 'outline'"
         @click="() => selectFilter(filter.slug)"
-        class="px-2 py-1 font-medium cursor-pointer">
+        class="px-2 py-1 cursor-pointer">
         {{ filter.name }}
       </Badge>
     </div>

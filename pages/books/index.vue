@@ -15,7 +15,7 @@
         :data="authors" />
     </div>
     <div class="lg:col-span-4">
-      <BookGrid :books="books" />
+      <BookGrid :books="books || []" />
     </div>
   </div>
 </template>
@@ -27,7 +27,7 @@
   const route = useRoute()
 
   const { data: cachedGenres } = useNuxtData('genres')
-  const { data: genres, status: genreStatus } = await useFetch<Genre[]>(`/api/genres`, {
+  const { data: genres } = await useFetch<Genre[]>(`/api/genres`, {
     default: () => cachedGenres.value,
     key: 'genres',
   })
@@ -41,7 +41,7 @@
   const genreId = computed(() => genres.value?.find((genre: Genre) => genre.slug === route.query.genre)?.id)
   const authorId = computed(() => authors.value?.find((author: Author) => author.slug === route.query.author)?.id)
 
-  const { data: books } = await useFetch<Book[]>(`/api/books`, {
+  const { data: books, status: booksStatus } = await useFetch<Book[]>(`/api/books`, {
     lazy: true,
     query: {
       genreId,

@@ -227,7 +227,8 @@
 </template>
 
 <script setup lang="ts">
-  import type { APIError, Author, Book, Genre } from '~/types'
+  import type { APIError, Book } from '~/types'
+  import type { Author, Genre } from '@prisma/client'
   import { toTypedSchema } from '@vee-validate/zod'
   import { useForm } from 'vee-validate'
   import { bookSchema } from '~/server/utils/validations'

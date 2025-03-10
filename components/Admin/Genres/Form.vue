@@ -56,7 +56,8 @@
 </template>
 
 <script setup lang="ts">
-  import type { APIError, Genre, RouteParams } from '~/types'
+  import type { APIError } from '~/types'
+  import type { Genre } from '@prisma/client'
   import { toTypedSchema } from '@vee-validate/zod'
   import { useForm } from 'vee-validate'
   import { genreSchema } from '~/server/utils/validations'

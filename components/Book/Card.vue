@@ -11,9 +11,20 @@
         <p class="">{{ book.price }} грн</p>
         <div class="absolute bottom-0 right-0">
           <Button
+            v-show="!inCart(book).value"
             size="xs"
-            class="bg-rose-500">
+            variant="secondary"
+            class="text-white bg-rose-500"
+            @click.prevent="addBook(book)">
             Купити
+          </Button>
+          <Button
+            v-show="inCart(book).value"
+            size="xs"
+            variant="secondary"
+            class="text-white bg-green-500"
+            @click.prevent="() => navigateTo('/cart')">
+            Оформити
           </Button>
         </div>
       </div>
@@ -27,4 +38,6 @@
   defineProps<{
     book: Book | null
   }>()
+
+  const { addBook, inCart } = useCart()
 </script>

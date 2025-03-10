@@ -27,6 +27,7 @@
   const { data: books, status } = await useFetch<Book[]>(`/api/books`, {
     key: 'books',
     lazy: true,
+    default: () => [],
   })
 </script>
 

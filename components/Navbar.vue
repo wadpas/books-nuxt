@@ -17,8 +17,9 @@
               <Button class="relative w-6 h-6 rounded-full">
                 <Avatar class="bg-white">
                   <Icon
-                    name="lucide:cog"
-                    class="w-6 h-6 hover:scale-105">
+                    name="lucide:list"
+                    size="26"
+                    class="hover:scale-105">
                   </Icon>
                 </Avatar>
               </Button>
@@ -30,7 +31,7 @@
                 <DropdownMenuItem>
                   <Icon
                     name="lucide:book-open"
-                    class="w-4 h-4">
+                    size="20">
                   </Icon>
                   Книги
                 </DropdownMenuItem>
@@ -39,7 +40,7 @@
                 <DropdownMenuItem>
                   <Icon
                     name="lucide:users-round"
-                    class="w-4 h-4">
+                    size="20">
                   </Icon>
                   Автори
                 </DropdownMenuItem>
@@ -48,7 +49,7 @@
                 <DropdownMenuItem>
                   <Icon
                     name="lucide:drama"
-                    class="w-4 h-4">
+                    size="20">
                   </Icon>
                   Жанри
                 </DropdownMenuItem>
@@ -62,8 +63,9 @@
                 class="relative w-6 h-6 rounded-full">
                 <Avatar class="bg-white">
                   <Icon
-                    name="lucide:circle-user-round"
-                    class="w-6 h-6 hover:scale-105">
+                    name="lucide:circle-user"
+                    size="26"
+                    class="hover:scale-105">
                   </Icon>
                 </Avatar>
               </Button>
@@ -76,20 +78,33 @@
               <DropdownMenuItem @click="logout">
                 <Icon
                   name="lucide:log-out"
-                  class="w-4 h-4">
+                  size="20">
                 </Icon>
                 Logout
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </template>
-        <Button class="relative h-8 px-5 py-1 rounded-full">
+        <Button
+          v-if="!user"
+          @click="navigateTo('/auth/login')"
+          class="rounded-full">
           <Icon
-            name="lucide:shopping-cart"
-            class="w-4 h-4">
+            name="lucide:log-in"
+            size="18">
           </Icon>
-          5
         </Button>
+        <ClientOnly>
+          <Button
+            @click="navigateTo('/cart')"
+            class="rounded-full">
+            <Icon
+              name="lucide:shopping-bag"
+              size="18">
+            </Icon>
+            {{ cartBooks.length > 0 ? cartBooks.length : 0 }}
+          </Button>
+        </ClientOnly>
       </nav>
     </div>
   </header>
@@ -97,6 +112,8 @@
 
 <script setup lang="ts">
   const { user, clear } = useUserSession()
+
+  const { books: cartBooks } = useCart()
 
   const logout = async () => {
     await clear()
