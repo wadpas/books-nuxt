@@ -14,8 +14,6 @@ export default defineEventHandler(async (event) => {
       let author = await db.author.findUnique({
         where: { slug },
       })
-      console.log(author)
-
       if (author) {
         throw new Error()
       }

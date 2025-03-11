@@ -30,6 +30,9 @@ declare module "nitropack/types" {
       'get': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/books/index.get').default>>>>
       'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/books/index.post').default>>>>
     }
+    '/api/checkout': {
+      'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/checkout/index.post').default>>>>
+    }
     '/api/genres/:slug': {
       'delete': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/genres/[slug]/index.delete').default>>>>
       'get': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/genres/[slug]/index.get').default>>>>
@@ -38,6 +41,9 @@ declare module "nitropack/types" {
     '/api/genres': {
       'get': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/genres/index.get').default>>>>
       'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/genres/index.post').default>>>>
+    }
+    '/api/webhooks': {
+      'default': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/webhooks/index').default>>>>
     }
     '/__nuxt_error': {
       'default': Simplify<Serialize<Awaited<ReturnType<typeof import('../../node_modules/nuxt/dist/core/runtime/nitro/renderer').default>>>>

@@ -160,6 +160,7 @@ declare global {
   const setResponseStatus: typeof import('../../node_modules/h3')['setResponseStatus']
   const setUserSession: typeof import('../../node_modules/nuxt-auth-utils/dist/runtime/server/utils/session')['setUserSession']
   const splitCookiesString: typeof import('../../node_modules/h3')['splitCookiesString']
+  const stripe: typeof import('../../server/utils/stripe')['stripe']
   const toEventHandler: typeof import('../../node_modules/h3')['toEventHandler']
   const toNodeListener: typeof import('../../node_modules/h3')['toNodeListener']
   const toPlainHandler: typeof import('../../node_modules/h3')['toPlainHandler']
@@ -340,4 +341,5 @@ export { sanitizeUser } from '../../server/utils/auth';
 export { default as db } from '../../server/utils/db';
 export { handleError } from '../../server/utils/error';
 export { getLocalStorageData, setLocalStorageData } from '../../server/utils/index';
+export { stripe } from '../../server/utils/stripe';
 export { authSchema, genreSchema, authorSchema, bookSchema } from '../../server/utils/validations';

@@ -3,7 +3,7 @@ import { Server } from 'node:http';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { parentPort, threadId } from 'node:worker_threads';
-import { getRequestHeader, splitCookiesString, setResponseStatus, setResponseHeader, send, getRequestHeaders, defineEventHandler, handleCacheHeaders, createEvent, fetchWithEvent, isEvent, eventHandler, getResponseStatus, setResponseHeaders, setHeaders, sendRedirect, proxyRequest, createError, getRequestURL, getQuery as getQuery$1, useSession, lazyEventHandler, useBase, createApp, createRouter as createRouter$1, toNodeListener, getRouterParam, readBody, readValidatedBody, getResponseStatusText } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/h3/dist/index.mjs';
+import { getRequestHeader, splitCookiesString, setResponseStatus, setResponseHeader, send, getRequestHeaders, defineEventHandler, handleCacheHeaders, createEvent, fetchWithEvent, isEvent, eventHandler, getResponseStatus, setResponseHeaders, setHeaders, sendRedirect, proxyRequest, createError, getRequestURL, getQuery as getQuery$1, useSession, lazyEventHandler, useBase, createApp, createRouter as createRouter$1, toNodeListener, getRouterParam, readBody, readValidatedBody, getHeader, readRawBody, getResponseStatusText } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/h3/dist/index.mjs';
 import { withQuery, joinURL, withTrailingSlash, parseURL, withoutBase, getQuery, joinRelativeURL } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/ufo/dist/index.mjs';
 import defu, { defuFn, defu as defu$1 } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/defu/dist/defu.mjs';
 import { FetchError, createFetch as createFetch$1, Headers as Headers$1 } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/ofetch/dist/node.mjs';
@@ -11,8 +11,9 @@ import { snakeCase, upperFirst } from 'file://C:/Users/Wad/Desktop/apps/books-nu
 import { Hash } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/@adonisjs/hash/build/index.js';
 import { Scrypt } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/@adonisjs/hash/build/src/drivers/scrypt.js';
 import CyrillicToTranslit from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/cyrillic-to-translit-js/CyrillicToTranslit.js';
-import { PrismaClient } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/@prisma/client/default.js';
 import { z } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/zod/lib/index.mjs';
+import Stripe from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/stripe/esm/stripe.esm.node.js';
+import { PrismaClient } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/@prisma/client/default.js';
 import { getRequestDependencies, getPreloadLinks, getPrefetchLinks, createRenderer } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/vue-bundle-renderer/dist/runtime.mjs';
 import { stringify, uneval } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/devalue/index.js';
 import destr from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/destr/dist/index.mjs';
@@ -585,6 +586,8 @@ const _inlineRuntimeConfig = {
     }
   },
   "public": {},
+  "stripeSecret": "pk_test_51R1OomGX3Ub2fy4SdRNnp7TlvnFBmLkuTB8fzSKgyvtzCGm7dggdBN1eKVnuKQQyE1nJS8psW2KphqU2SYPMAQsW00JghH3XsW",
+  "stripeWebhookSecret": "whsec_f7fc8cebaead75371f81d7bf2c0e19c7e900dbb788eeb6c7b85ddd16c1a005ca",
   "session": {
     "name": "nuxt-session",
     "password": "800436336fd442b18ce7e3ae676a87a4",
@@ -1534,6 +1537,11 @@ const sanitizeUser = (user) => {
 
 const db = globalThis.prisma || new PrismaClient();
 
+const stripe = new Stripe(useRuntimeConfig().stripeSecret, {
+  apiVersion: "2025-02-24.acacia",
+  typescript: true
+});
+
 const authSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8)
@@ -1702,17 +1710,19 @@ const _lazy_XojTn6 = () => Promise.resolve().then(function () { return index_del
 const _lazy_9Y4jpp = () => Promise.resolve().then(function () { return index_get$b; });
 const _lazy_MrZOBd = () => Promise.resolve().then(function () { return index_patch$5; });
 const _lazy_TW36Jx = () => Promise.resolve().then(function () { return index_get$9; });
-const _lazy_Z05PZF = () => Promise.resolve().then(function () { return index_post$5; });
+const _lazy_Z05PZF = () => Promise.resolve().then(function () { return index_post$7; });
 const _lazy_tcQJ5P = () => Promise.resolve().then(function () { return index_delete$3; });
 const _lazy_dDbK2N = () => Promise.resolve().then(function () { return index_get$7; });
 const _lazy_66uBaD = () => Promise.resolve().then(function () { return index_patch$3; });
 const _lazy_9eui6I = () => Promise.resolve().then(function () { return index_get$5; });
-const _lazy_nmqs0X = () => Promise.resolve().then(function () { return index_post$3; });
+const _lazy_nmqs0X = () => Promise.resolve().then(function () { return index_post$5; });
+const _lazy_uvnLSA = () => Promise.resolve().then(function () { return index_post$3; });
 const _lazy_XQ0Dpm = () => Promise.resolve().then(function () { return index_delete$1; });
 const _lazy_TtDnFc = () => Promise.resolve().then(function () { return index_get$3; });
 const _lazy_jVNdCP = () => Promise.resolve().then(function () { return index_patch$1; });
 const _lazy_FgRSH3 = () => Promise.resolve().then(function () { return index_get$1; });
 const _lazy_FkEbU9 = () => Promise.resolve().then(function () { return index_post$1; });
+const _lazy_Qgqtz2 = () => Promise.resolve().then(function () { return index$1; });
 const _lazy_Sgl683 = () => Promise.resolve().then(function () { return renderer$1; });
 
 const handlers = [
@@ -1729,11 +1739,13 @@ const handlers = [
   { route: '/api/books/:slug', handler: _lazy_66uBaD, lazy: true, middleware: false, method: "patch" },
   { route: '/api/books', handler: _lazy_9eui6I, lazy: true, middleware: false, method: "get" },
   { route: '/api/books', handler: _lazy_nmqs0X, lazy: true, middleware: false, method: "post" },
+  { route: '/api/checkout', handler: _lazy_uvnLSA, lazy: true, middleware: false, method: "post" },
   { route: '/api/genres/:slug', handler: _lazy_XQ0Dpm, lazy: true, middleware: false, method: "delete" },
   { route: '/api/genres/:slug', handler: _lazy_TtDnFc, lazy: true, middleware: false, method: "get" },
   { route: '/api/genres/:slug', handler: _lazy_jVNdCP, lazy: true, middleware: false, method: "patch" },
   { route: '/api/genres', handler: _lazy_FgRSH3, lazy: true, middleware: false, method: "get" },
   { route: '/api/genres', handler: _lazy_FkEbU9, lazy: true, middleware: false, method: "post" },
+  { route: '/api/webhooks', handler: _lazy_Qgqtz2, lazy: true, middleware: false, method: undefined },
   { route: '/__nuxt_error', handler: _lazy_Sgl683, lazy: true, middleware: false, method: undefined },
   { route: '/api/_auth/session', handler: _56IsM9, lazy: false, middleware: false, method: "delete" },
   { route: '/api/_auth/session', handler: _D49Rar, lazy: false, middleware: false, method: "get" },
@@ -2165,7 +2177,7 @@ const index_get$9 = /*#__PURE__*/Object.freeze({
   default: index_get$8
 });
 
-const index_post$4 = defineEventHandler(async (event) => {
+const index_post$6 = defineEventHandler(async (event) => {
   var _a;
   const session = await requireUserSession(event);
   const cyrillicToTranslit = CyrillicToTranslit({ preset: "uk" });
@@ -2176,7 +2188,6 @@ const index_post$4 = defineEventHandler(async (event) => {
       let author = await db.author.findUnique({
         where: { slug }
       });
-      console.log(author);
       if (author) {
         throw new Error();
       }
@@ -2202,9 +2213,9 @@ const index_post$4 = defineEventHandler(async (event) => {
   }
 });
 
-const index_post$5 = /*#__PURE__*/Object.freeze({
+const index_post$7 = /*#__PURE__*/Object.freeze({
   __proto__: null,
-  default: index_post$4
+  default: index_post$6
 });
 
 const index_delete$2 = defineEventHandler(async (event) => {
@@ -2323,10 +2334,6 @@ const index_get$4 = defineEventHandler(async (event) => {
       authors: true,
       genres: true
     },
-    omit: {
-      authorIds: true,
-      genreIds: true
-    },
     where: queryParams
   });
   return books;
@@ -2337,7 +2344,7 @@ const index_get$5 = /*#__PURE__*/Object.freeze({
   default: index_get$4
 });
 
-const index_post$2 = defineEventHandler(async (event) => {
+const index_post$4 = defineEventHandler(async (event) => {
   var _a;
   const session = await requireUserSession(event);
   const cyrillicToTranslit = CyrillicToTranslit({ preset: "uk" });
@@ -2372,7 +2379,6 @@ const index_post$2 = defineEventHandler(async (event) => {
       });
       return book;
     } catch (error) {
-      console.log(error);
       throw createError({
         statusCode: 500,
         statusMessage: "\u041F\u043E\u043C\u0438\u043B\u043A\u0430 \u043F\u0440\u0438 \u0441\u0442\u0432\u043E\u0440\u0435\u043D\u043D\u0456 \u043D\u043E\u0432\u043E\u0457 \u043A\u043D\u0438\u0433\u0438"
@@ -2384,6 +2390,48 @@ const index_post$2 = defineEventHandler(async (event) => {
       statusMessage: "\u0423 \u0434\u043E\u0441\u0442\u0443\u043F\u0456 \u0432\u0456\u0434\u043C\u043E\u0432\u043B\u0435\u043D\u043E. \u0412\u0438 \u043D\u0435 \u0430\u0432\u0442\u043E\u0440\u0438\u0437\u043E\u0432\u0430\u043D\u0456 \u044F\u043A \u0430\u0434\u043C\u0456\u043D\u0456\u0441\u0442\u0440\u0430\u0442\u043E\u0440"
     });
   }
+});
+
+const index_post$5 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: index_post$4
+});
+
+const index_post$2 = defineEventHandler(async (event) => {
+  const { books, user } = await readBody(event);
+  if (!books) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: "\u041D\u0435\u0432\u0456\u0440\u043D\u0456 \u0434\u0430\u043D\u0456"
+    });
+  }
+  const order = await db.order.create({
+    data: {
+      booksIds: books.map((book) => book.id),
+      userId: user.id
+    }
+  });
+  const session = await stripe.checkout.sessions.create({
+    line_items: books.map((book) => {
+      return {
+        price_data: {
+          currency: "uah",
+          product_data: {
+            name: book.title
+          },
+          unit_amount: book.price * 100
+        },
+        quantity: 1
+      };
+    }),
+    mode: "payment",
+    success_url: "http://localhost:3000/cart?sucess=1",
+    cancel_url: "http://localhost:3000/cart?canceled=1",
+    metadata: {
+      orderId: order.id
+    }
+  });
+  return session.url;
 });
 
 const index_post$3 = /*#__PURE__*/Object.freeze({
@@ -2525,6 +2573,43 @@ const index_post = defineEventHandler(async (event) => {
 const index_post$1 = /*#__PURE__*/Object.freeze({
   __proto__: null,
   default: index_post
+});
+
+const index = defineEventHandler(async (event) => {
+  var _a, _b;
+  const signature = getHeader(event, "stripe-signature");
+  const body = await readRawBody(event);
+  let stripeEvent;
+  try {
+    stripeEvent = stripe.webhooks.constructEvent(body, signature, useRuntimeConfig().stripeWebhookSecret);
+  } catch (error) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: "\u041D\u0435\u0432\u0456\u0440\u043D\u0456 \u0434\u0430\u043D\u0456"
+    });
+  }
+  const session = stripeEvent.data.object;
+  console.log(session);
+  const address = (_a = session.customer_details) == null ? void 0 : _a.address;
+  [address == null ? void 0 : address.country, address == null ? void 0 : address.city, address == null ? void 0 : address.line1, address == null ? void 0 : address.line2];
+  if (stripeEvent.type === "checkout.session.completed") {
+    await db.order.update({
+      where: {
+        id: (_b = session.metadata) == null ? void 0 : _b.orderId
+      },
+      data: {
+        isPaid: true
+      },
+      include: {
+        books: true
+      }
+    });
+  }
+});
+
+const index$1 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: index
 });
 
 const Vue3 = version[0] === "3";

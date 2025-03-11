@@ -20,4 +20,8 @@ export default defineNuxtConfig({
       redirect: '/auth/login',
     },
   },
+  runtimeConfig: {
+    stripeSecret: process.env.NUXT_PUBLIC_STRIPE_KEY,
+    stripeWebhookSecret: process.env.NUXT_STRIPE_WEBHOOK_SECRET,
+  },
 })

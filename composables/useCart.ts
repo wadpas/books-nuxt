@@ -39,10 +39,6 @@ export function useCart() {
   const removeAllBooks = (book: Book) => {
     state.books = []
     setLocalStorageData<Book[]>('cart', [])
-    toast({
-      title: 'Успішно',
-      description: 'Всі книги видалено з кошику',
-    })
   }
 
   return {

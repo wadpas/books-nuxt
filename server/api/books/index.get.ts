@@ -25,11 +25,8 @@ export default defineEventHandler(async (event) => {
       authors: true,
       genres: true,
     },
-    omit: {
-      authorIds: true,
-      genreIds: true,
-    },
     where: queryParams,
   })
+
   return books
 })

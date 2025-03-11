@@ -167,6 +167,10 @@ declare module 'nuxt/schema' {
       cdnURL: string,
    },
 
+   stripeSecret: string,
+
+   stripeWebhookSecret: string,
+
    nitro: {
       envPrefix: string,
    },

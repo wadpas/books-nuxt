@@ -21,6 +21,9 @@
 
 <script setup>
   const { books, removeAllBooks } = useCart()
+  const { user } = useUserSession()
+  import { toast } from '~/components/ui/toast'
+  const router = useRouter()
 
   const totalPrice = computed(() => {
     return books.value.reduce((total, book) => {
@@ -28,10 +31,41 @@
     }, 0)
   })
 
-  const onCheckout = () => {
-    console.log(books)
+  const onCheckout = async () => {
+    try {
+      const data = await $fetch('/api/checkout', {
+        method: 'POST',
+        body: {
+          books: books.value,
+          user: user.value,
+        },
+      })
+      if (data) {
+        window.location.href = data
+      }
+
+      toast({
+        title: 'Успішно',
+        description: 'Замовлення прийнято',
+      })
+    } catch (error) {
+      console.log(error)
+    }
+
+    onMounted(() => {
+      if (router.query.success === 'true') {
+        toast({
+          title: 'Успішно',
+          description: 'Замовлення прийнято',
+        })
+        removeAllBooks()
+      }
+      if (router.query.success === 'false') {
+        toast({
+          title: 'Помилка',
+          description: 'Помилка при оплаті',
+        })
+      }
+    })
   }
 </script>
-
-<style lang="scss" scoped></style>
-.value
