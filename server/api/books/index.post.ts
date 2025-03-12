@@ -1,14 +1,28 @@
 import db from '~/server/utils/db'
 import CyrillicToTranslit from 'cyrillic-to-translit-js'
-import { bookSchema } from '~/server/utils/validations'
+import { bookSchema } from '~/utils/validations'
+import type { User } from '@prisma/client'
 
 export default defineEventHandler(async (event) => {
-  const session = await requireUserSession(event)
   const cyrillicToTranslit = CyrillicToTranslit({ preset: 'uk' })
+  const session = await requireUserSession(event)
+  const user = session.user as User
 
-  if (session.user && session.user?.role === 'admin') {
-    const { title, description, coverURLs, year, pages, genreIds, authorIds, price, isFeatured, isAvailable } =
-      await readValidatedBody(event, (body) => bookSchema.parse(body))
+  if (user && user?.role === 'admin') {
+    const {
+      title,
+      description,
+      coverPath1,
+      coverPath2,
+      year,
+      pages,
+      genreIds,
+      authorIds,
+      price,
+      isFeatured,
+      isAvailable,
+      filePath,
+    } = await readValidatedBody(event, (body) => bookSchema.parse(body))
     const slug = cyrillicToTranslit.transform(title.trim(), '-').replaceAll('.', '').replaceAll(',', '').toLowerCase()
 
     try {
@@ -26,13 +40,14 @@ export default defineEventHandler(async (event) => {
           title,
           slug,
           description,
-          coverURLs: [coverURLs],
+          coverPaths: [coverPath1, coverPath2],
           year,
           pages,
           genreIds,
           authorIds,
+          filePath: [filePath],
           price,
-          creatorId: session.user.id,
+          creatorId: user.id,
           isFeatured,
           isAvailable,
         },

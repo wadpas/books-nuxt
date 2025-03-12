@@ -1,6 +1,6 @@
 import db from '~/server/utils/db'
 import CyrillicToTranslit from 'cyrillic-to-translit-js'
-import { genreSchema } from '~/server/utils/validations'
+import { genreSchema } from '~/utils/validations'
 
 export default defineEventHandler(async (event) => {
   const session = await requireUserSession(event)

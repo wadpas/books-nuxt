@@ -20,7 +20,7 @@ export type Book = {
   authors: Author[]
   genres: Genre[]
   description: string
-  coverURLs: string[]
+  coverPaths: string[]
   year: number
   pages: number
   price: number

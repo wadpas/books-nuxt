@@ -42,6 +42,9 @@ declare module "nitropack/types" {
       'get': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/genres/index.get').default>>>>
       'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/genres/index.post').default>>>>
     }
+    '/api/users': {
+      'get': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/users/index.get').default>>>>
+    }
     '/api/webhooks': {
       'default': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/webhooks/index').default>>>>
     }

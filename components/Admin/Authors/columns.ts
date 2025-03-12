@@ -6,7 +6,7 @@ import CellActions from './CellActions.vue'
 export const columns: ColumnDef<Author>[] = [
   {
     accessorKey: 'name',
-    header: `ім'я`,
+    header: `Ім'я`,
   },
   {
     accessorKey: 'slug',

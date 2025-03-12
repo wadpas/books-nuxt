@@ -1,5 +1,5 @@
 import { toast } from '~/components/ui/toast'
-import { setLocalStorageData, getLocalStorageData } from '~/server/utils'
+import { setLocalStorageData, getLocalStorageData } from '~/utils/localStorage'
 import type { Book } from '~/types'
 
 interface CartState {

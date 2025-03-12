@@ -60,7 +60,7 @@
   import type { Genre } from '@prisma/client'
   import { toTypedSchema } from '@vee-validate/zod'
   import { useForm } from 'vee-validate'
-  import { genreSchema } from '~/server/utils/validations'
+  import { genreSchema } from '~/utils/validations'
   import { toast } from '~/components/ui/toast'
 
   const isEditing = ref(true)

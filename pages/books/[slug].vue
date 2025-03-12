@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-row">
     <NuxtImg
-      :src="book.coverURLs[0]"
+      :src="book.coverPaths[0]"
       :alt="book.title"
       width="300"
       class="aspect-[55/85] rounded-sm" />

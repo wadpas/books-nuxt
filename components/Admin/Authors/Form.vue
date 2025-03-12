@@ -60,7 +60,7 @@
   import type { Author } from '@prisma/client'
   import { toTypedSchema } from '@vee-validate/zod'
   import { useForm } from 'vee-validate'
-  import { authorSchema } from '~/server/utils/validations'
+  import { authorSchema } from '~/utils/validations'
   import { toast } from '~/components/ui/toast'
 
   const isEditing = ref(true)

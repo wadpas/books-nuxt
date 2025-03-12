@@ -24,6 +24,7 @@ export default defineEventHandler(async (event) => {
     include: {
       authors: true,
       genres: true,
+      comments: true,
     },
     where: queryParams,
   })

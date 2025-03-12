@@ -2,7 +2,7 @@
   <NuxtLink :to="`/books/${book.slug}`">
     <div class="relative flex flex-col justify-end rounded-sm shadow-sm">
       <NuxtImg
-        :src="book.coverURLs[0]"
+        :src="book.coverPaths[0]"
         :alt="book.title"
         class="aspect-[55/85] rounded-sm" />
       <div class="px-2 pt-2 pb-1 space-y-2">
@@ -11,17 +11,15 @@
         <p class="">{{ book.price }} грн</p>
         <div class="absolute bottom-0 right-0">
           <Button
-            v-show="!inCart(book).value"
+            v-if="!inCart(book).value"
             size="xs"
-            variant="secondary"
             class="text-white bg-rose-500"
             @click.prevent="addBook(book)">
             Купити
           </Button>
           <Button
-            v-show="inCart(book).value"
+            v-if="inCart(book).value"
             size="xs"
-            variant="secondary"
             class="text-white bg-green-500"
             @click.prevent="() => navigateTo('/cart')">
             Оформити

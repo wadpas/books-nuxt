@@ -1531,7 +1531,7 @@ async function verifyPassword(hashedPassword, plainPassword) {
 
 const sanitizeUser = (user) => {
   if (!user) return null;
-  delete user.password;
+  user.password = "";
   return user;
 };
 
@@ -1540,29 +1540,6 @@ const db = globalThis.prisma || new PrismaClient();
 const stripe = new Stripe(useRuntimeConfig().stripeSecret, {
   apiVersion: "2025-02-24.acacia",
   typescript: true
-});
-
-const authSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8)
-});
-const genreSchema = z.object({
-  name: z.string().min(1, { message: "\u0412\u0432\u0435\u0434\u0456\u0442\u044C \u043D\u0430\u0437\u0432\u0443 \u0436\u0430\u043D\u0440\u0443" })
-});
-const authorSchema = z.object({
-  name: z.string().min(1, { message: `\u0412\u0432\u0435\u0434\u0456\u0442\u044C \u0456\u043C'\u044F \u0430\u0432\u0442\u043E\u0440\u0430` })
-});
-const bookSchema = z.object({
-  title: z.string().min(1, { message: "\u0412\u0432\u0435\u0434\u0456\u0442\u044C \u043D\u0430\u0437\u0432\u0443 \u043A\u043D\u0438\u0433\u0438" }),
-  authorIds: z.string().array().min(1, { message: "\u0414\u043E\u0434\u0430\u0439\u0442\u0435 \u0430\u0432\u0442\u043E\u0440\u0430 \u043A\u043D\u0438\u0433\u0438" }),
-  genreIds: z.string().array().min(1, { message: "\u0414\u043E\u0434\u0430\u0439\u0442\u0435 \u0436\u0430\u043D\u0440 \u043A\u043D\u0438\u0433\u0438" }),
-  description: z.string().min(1, { message: "\u0412\u0432\u0435\u0434\u0456\u0442\u044C \u043E\u043F\u0438\u0441 \u043A\u043D\u0438\u0433\u0438" }),
-  coverURLs: z.string(),
-  year: z.coerce.number().min(4, { message: "\u0412\u0432\u0435\u0434\u0456\u0442\u044C \u0440\u0456\u043A \u0432\u0438\u0434\u0430\u043D\u043D\u044F" }),
-  pages: z.coerce.number().min(1, { message: "\u0412\u0432\u0435\u0434\u0456\u0442\u044C \u043A\u0456\u043B\u044C\u043A\u0456\u0441\u0442\u044C \u0441\u0442\u043E\u0440\u0456\u043D\u043E\u043A" }),
-  price: z.coerce.number().min(1, { message: "\u0412\u0432\u0435\u0434\u0456\u0442\u044C \u0446\u0456\u043D\u0443 \u043A\u043D\u0438\u0433\u0438" }),
-  isFeatured: z.boolean().default(true).optional(),
-  isAvailable: z.boolean().default(true).optional()
 });
 
 const sessionHooks = createHooks();
@@ -1707,21 +1684,22 @@ const _lazy_Ej1chm = () => Promise.resolve().then(function () { return github_ge
 const _lazy_EwjYhE = () => Promise.resolve().then(function () { return login_post$1; });
 const _lazy_51VOrk = () => Promise.resolve().then(function () { return register_post$1; });
 const _lazy_XojTn6 = () => Promise.resolve().then(function () { return index_delete$5; });
-const _lazy_9Y4jpp = () => Promise.resolve().then(function () { return index_get$b; });
+const _lazy_9Y4jpp = () => Promise.resolve().then(function () { return index_get$d; });
 const _lazy_MrZOBd = () => Promise.resolve().then(function () { return index_patch$5; });
-const _lazy_TW36Jx = () => Promise.resolve().then(function () { return index_get$9; });
+const _lazy_TW36Jx = () => Promise.resolve().then(function () { return index_get$b; });
 const _lazy_Z05PZF = () => Promise.resolve().then(function () { return index_post$7; });
 const _lazy_tcQJ5P = () => Promise.resolve().then(function () { return index_delete$3; });
-const _lazy_dDbK2N = () => Promise.resolve().then(function () { return index_get$7; });
+const _lazy_dDbK2N = () => Promise.resolve().then(function () { return index_get$9; });
 const _lazy_66uBaD = () => Promise.resolve().then(function () { return index_patch$3; });
-const _lazy_9eui6I = () => Promise.resolve().then(function () { return index_get$5; });
+const _lazy_9eui6I = () => Promise.resolve().then(function () { return index_get$7; });
 const _lazy_nmqs0X = () => Promise.resolve().then(function () { return index_post$5; });
 const _lazy_uvnLSA = () => Promise.resolve().then(function () { return index_post$3; });
 const _lazy_XQ0Dpm = () => Promise.resolve().then(function () { return index_delete$1; });
-const _lazy_TtDnFc = () => Promise.resolve().then(function () { return index_get$3; });
+const _lazy_TtDnFc = () => Promise.resolve().then(function () { return index_get$5; });
 const _lazy_jVNdCP = () => Promise.resolve().then(function () { return index_patch$1; });
-const _lazy_FgRSH3 = () => Promise.resolve().then(function () { return index_get$1; });
+const _lazy_FgRSH3 = () => Promise.resolve().then(function () { return index_get$3; });
 const _lazy_FkEbU9 = () => Promise.resolve().then(function () { return index_post$1; });
+const _lazy_9p0UWi = () => Promise.resolve().then(function () { return index_get$1; });
 const _lazy_Qgqtz2 = () => Promise.resolve().then(function () { return index$1; });
 const _lazy_Sgl683 = () => Promise.resolve().then(function () { return renderer$1; });
 
@@ -1745,6 +1723,7 @@ const handlers = [
   { route: '/api/genres/:slug', handler: _lazy_jVNdCP, lazy: true, middleware: false, method: "patch" },
   { route: '/api/genres', handler: _lazy_FgRSH3, lazy: true, middleware: false, method: "get" },
   { route: '/api/genres', handler: _lazy_FkEbU9, lazy: true, middleware: false, method: "post" },
+  { route: '/api/users', handler: _lazy_9p0UWi, lazy: true, middleware: false, method: "get" },
   { route: '/api/webhooks', handler: _lazy_Qgqtz2, lazy: true, middleware: false, method: undefined },
   { route: '/__nuxt_error', handler: _lazy_Sgl683, lazy: true, middleware: false, method: undefined },
   { route: '/api/_auth/session', handler: _56IsM9, lazy: false, middleware: false, method: "delete" },
@@ -2001,6 +1980,31 @@ const github_get$1 = /*#__PURE__*/Object.freeze({
   default: github_get
 });
 
+const authSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8)
+});
+const genreSchema = z.object({
+  name: z.string().min(1, { message: "\u0412\u0432\u0435\u0434\u0456\u0442\u044C \u043D\u0430\u0437\u0432\u0443 \u0436\u0430\u043D\u0440\u0443" })
+});
+const authorSchema = z.object({
+  name: z.string().min(1, { message: `\u0412\u0432\u0435\u0434\u0456\u0442\u044C \u0456\u043C'\u044F \u0430\u0432\u0442\u043E\u0440\u0430` })
+});
+const bookSchema = z.object({
+  title: z.string().min(1, { message: "\u0412\u0432\u0435\u0434\u0456\u0442\u044C \u043D\u0430\u0437\u0432\u0443 \u043A\u043D\u0438\u0433\u0438" }),
+  authorIds: z.string().array().min(1, { message: "\u0414\u043E\u0434\u0430\u0439\u0442\u0435 \u0430\u0432\u0442\u043E\u0440\u0430 \u043A\u043D\u0438\u0433\u0438" }),
+  genreIds: z.string().array().min(1, { message: "\u0414\u043E\u0434\u0430\u0439\u0442\u0435 \u0436\u0430\u043D\u0440 \u043A\u043D\u0438\u0433\u0438" }),
+  description: z.string().min(1, { message: "\u0412\u0432\u0435\u0434\u0456\u0442\u044C \u043E\u043F\u0438\u0441 \u043A\u043D\u0438\u0433\u0438" }),
+  coverPath1: z.string().min(1, { message: "\u0412\u0432\u0435\u0434\u0456\u0442\u044C \u043E\u0431\u043A\u043B\u0430\u0434\u0438\u043D\u043A\u0443 \u043A\u043D\u0438\u0433\u0438" }),
+  coverPath2: z.string().min(1, { message: "\u0412\u0432\u0435\u0434\u0456\u0442\u044C \u043E\u0431\u043A\u043B\u0430\u0434\u0438\u043D\u043A\u0443 \u043A\u043D\u0438\u0433\u0438" }),
+  filePath: z.string().min(1, { message: "\u0412\u0432\u0435\u0434\u0456\u0442\u044C \u0444\u0430\u0439\u043B \u043A\u043D\u0438\u0433\u0438" }),
+  year: z.coerce.number().min(4, { message: "\u0412\u0432\u0435\u0434\u0456\u0442\u044C \u0440\u0456\u043A \u0432\u0438\u0434\u0430\u043D\u043D\u044F" }),
+  pages: z.coerce.number().min(1, { message: "\u0412\u0432\u0435\u0434\u0456\u0442\u044C \u043A\u0456\u043B\u044C\u043A\u0456\u0441\u0442\u044C \u0441\u0442\u043E\u0440\u0456\u043D\u043E\u043A" }),
+  price: z.coerce.number().min(1, { message: "\u0412\u0432\u0435\u0434\u0456\u0442\u044C \u0446\u0456\u043D\u0443 \u043A\u043D\u0438\u0433\u0438" }),
+  isFeatured: z.boolean().default(true).optional(),
+  isAvailable: z.boolean().default(true).optional()
+});
+
 const login_post = defineEventHandler(async (event) => {
   const { email, password } = await readValidatedBody(event, (body) => authSchema.parse(body));
   let currentUser = await db.user.findUnique({
@@ -2111,7 +2115,7 @@ const index_delete$5 = /*#__PURE__*/Object.freeze({
   default: index_delete$4
 });
 
-const index_get$a = defineEventHandler(async (event) => {
+const index_get$c = defineEventHandler(async (event) => {
   var _a;
   const author = await db.author.findUnique({
     where: {
@@ -2121,9 +2125,9 @@ const index_get$a = defineEventHandler(async (event) => {
   return author;
 });
 
-const index_get$b = /*#__PURE__*/Object.freeze({
+const index_get$d = /*#__PURE__*/Object.freeze({
   __proto__: null,
-  default: index_get$a
+  default: index_get$c
 });
 
 const index_patch$4 = defineEventHandler(async (event) => {
@@ -2163,7 +2167,7 @@ const index_patch$5 = /*#__PURE__*/Object.freeze({
   default: index_patch$4
 });
 
-const index_get$8 = defineEventHandler(async (event) => {
+const index_get$a = defineEventHandler(async (event) => {
   const authors = await db.author.findMany({
     orderBy: {
       name: "asc"
@@ -2172,16 +2176,16 @@ const index_get$8 = defineEventHandler(async (event) => {
   return authors;
 });
 
-const index_get$9 = /*#__PURE__*/Object.freeze({
+const index_get$b = /*#__PURE__*/Object.freeze({
   __proto__: null,
-  default: index_get$8
+  default: index_get$a
 });
 
 const index_post$6 = defineEventHandler(async (event) => {
-  var _a;
-  const session = await requireUserSession(event);
   const cyrillicToTranslit = CyrillicToTranslit({ preset: "uk" });
-  if (session.user && ((_a = session.user) == null ? void 0 : _a.role) === "admin") {
+  const session = await requireUserSession(event);
+  const user = session.user;
+  if (user && (user == null ? void 0 : user.role) === "admin") {
     const { name } = await readValidatedBody(event, (body) => authorSchema.parse(body));
     const slug = cyrillicToTranslit.transform(name.trim(), "-").replaceAll(".", "").replaceAll(",", "").toLowerCase();
     try {
@@ -2195,7 +2199,7 @@ const index_post$6 = defineEventHandler(async (event) => {
         data: {
           name,
           slug,
-          creatorId: session.user.id
+          creatorId: user.id
         }
       });
       return author;
@@ -2247,7 +2251,7 @@ const index_delete$3 = /*#__PURE__*/Object.freeze({
   default: index_delete$2
 });
 
-const index_get$6 = defineEventHandler(async (event) => {
+const index_get$8 = defineEventHandler(async (event) => {
   var _a;
   const genre = await db.book.findUnique({
     where: {
@@ -2261,34 +2265,47 @@ const index_get$6 = defineEventHandler(async (event) => {
   return genre;
 });
 
-const index_get$7 = /*#__PURE__*/Object.freeze({
+const index_get$9 = /*#__PURE__*/Object.freeze({
   __proto__: null,
-  default: index_get$6
+  default: index_get$8
 });
 
 const index_patch$2 = defineEventHandler(async (event) => {
-  var _a, _b;
-  const session = await requireUserSession(event);
+  var _a;
   const cyrillicToTranslit = CyrillicToTranslit({ preset: "uk" });
-  if (session.user && ((_a = session.user) == null ? void 0 : _a.role) === "admin") {
-    const { title, description, coverURLs, year, pages, genreIds, authorIds, price, isFeatured, isAvailable } = await readValidatedBody(event, (body) => bookSchema.parse(body));
+  const session = await requireUserSession(event);
+  const sessionUser = session.user;
+  if (sessionUser && sessionUser.role === "admin") {
+    const {
+      title,
+      description,
+      coverPath1,
+      coverPath2,
+      year,
+      pages,
+      genreIds,
+      authorIds,
+      price,
+      isFeatured,
+      isAvailable
+    } = await readValidatedBody(event, (body) => bookSchema.parse(body));
     const slug = cyrillicToTranslit.transform(title.trim(), "-").replaceAll(".", "").replaceAll(",", "").toLowerCase();
     try {
       const book = await db.book.update({
         where: {
-          slug: (_b = event.context.params) == null ? void 0 : _b.slug
+          slug: (_a = event.context.params) == null ? void 0 : _a.slug
         },
         data: {
           title,
           slug,
           description,
-          coverURLs,
+          coverPaths: [coverPath1, coverPath2],
           year,
           pages,
           genreIds,
           authorIds,
           price,
-          creatorId: session.user.id,
+          creatorId: sessionUser.id,
           isFeatured,
           isAvailable
         }
@@ -2313,7 +2330,7 @@ const index_patch$3 = /*#__PURE__*/Object.freeze({
   default: index_patch$2
 });
 
-const index_get$4 = defineEventHandler(async (event) => {
+const index_get$6 = defineEventHandler(async (event) => {
   const { genreId, authorId } = getQuery$1(event);
   const queryParams = {};
   if (genreId) {
@@ -2332,24 +2349,38 @@ const index_get$4 = defineEventHandler(async (event) => {
     },
     include: {
       authors: true,
-      genres: true
+      genres: true,
+      commentIds: true
     },
     where: queryParams
   });
   return books;
 });
 
-const index_get$5 = /*#__PURE__*/Object.freeze({
+const index_get$7 = /*#__PURE__*/Object.freeze({
   __proto__: null,
-  default: index_get$4
+  default: index_get$6
 });
 
 const index_post$4 = defineEventHandler(async (event) => {
-  var _a;
-  const session = await requireUserSession(event);
   const cyrillicToTranslit = CyrillicToTranslit({ preset: "uk" });
-  if (session.user && ((_a = session.user) == null ? void 0 : _a.role) === "admin") {
-    const { title, description, coverURLs, year, pages, genreIds, authorIds, price, isFeatured, isAvailable } = await readValidatedBody(event, (body) => bookSchema.parse(body));
+  const session = await requireUserSession(event);
+  const user = session.user;
+  if (user && (user == null ? void 0 : user.role) === "admin") {
+    const {
+      title,
+      description,
+      coverPath1,
+      coverPath2,
+      year,
+      pages,
+      genreIds,
+      authorIds,
+      price,
+      isFeatured,
+      isAvailable,
+      filePath
+    } = await readValidatedBody(event, (body) => bookSchema.parse(body));
     const slug = cyrillicToTranslit.transform(title.trim(), "-").replaceAll(".", "").replaceAll(",", "").toLowerCase();
     try {
       let book = await db.book.findUnique({
@@ -2366,13 +2397,14 @@ const index_post$4 = defineEventHandler(async (event) => {
           title,
           slug,
           description,
-          coverURLs: [coverURLs],
+          coverPaths: [coverPath1, coverPath2],
           year,
           pages,
           genreIds,
           authorIds,
+          filePath: [filePath],
           price,
-          creatorId: session.user.id,
+          creatorId: user.id,
           isFeatured,
           isAvailable
         }
@@ -2468,7 +2500,7 @@ const index_delete$1 = /*#__PURE__*/Object.freeze({
   default: index_delete
 });
 
-const index_get$2 = defineEventHandler(async (event) => {
+const index_get$4 = defineEventHandler(async (event) => {
   var _a;
   const genre = await db.genre.findUnique({
     where: {
@@ -2478,9 +2510,9 @@ const index_get$2 = defineEventHandler(async (event) => {
   return genre;
 });
 
-const index_get$3 = /*#__PURE__*/Object.freeze({
+const index_get$5 = /*#__PURE__*/Object.freeze({
   __proto__: null,
-  default: index_get$2
+  default: index_get$4
 });
 
 const index_patch = defineEventHandler(async (event) => {
@@ -2520,7 +2552,7 @@ const index_patch$1 = /*#__PURE__*/Object.freeze({
   default: index_patch
 });
 
-const index_get = defineEventHandler(async (event) => {
+const index_get$2 = defineEventHandler(async (event) => {
   const genres = await db.genre.findMany({
     orderBy: {
       name: "asc"
@@ -2529,16 +2561,16 @@ const index_get = defineEventHandler(async (event) => {
   return genres;
 });
 
-const index_get$1 = /*#__PURE__*/Object.freeze({
+const index_get$3 = /*#__PURE__*/Object.freeze({
   __proto__: null,
-  default: index_get
+  default: index_get$2
 });
 
 const index_post = defineEventHandler(async (event) => {
-  var _a;
-  const session = await requireUserSession(event);
   const cyrillicToTranslit = CyrillicToTranslit({ preset: "uk" });
-  if (session.user && ((_a = session.user) == null ? void 0 : _a.role) === "admin") {
+  const session = await requireUserSession(event);
+  const user = session.user;
+  if (user && (user == null ? void 0 : user.role) === "admin") {
     const { name } = await readValidatedBody(event, (body) => genreSchema.parse(body));
     const slug = cyrillicToTranslit.transform(name.trim(), "-").replaceAll(".", "").replaceAll(",", "").toLowerCase();
     try {
@@ -2552,7 +2584,7 @@ const index_post = defineEventHandler(async (event) => {
         data: {
           name,
           slug,
-          creatorId: session.user.id
+          creatorId: user.id
         }
       });
       return genre;
@@ -2573,6 +2605,36 @@ const index_post = defineEventHandler(async (event) => {
 const index_post$1 = /*#__PURE__*/Object.freeze({
   __proto__: null,
   default: index_post
+});
+
+const index_get = defineEventHandler(async (event) => {
+  const session = await requireUserSession(event);
+  const user = session.user;
+  if (user && (user == null ? void 0 : user.role) === "admin") {
+    try {
+      const users = await db.user.findMany({
+        include: {
+          oAuthAccountIds: true
+        }
+      });
+      return users;
+    } catch (error) {
+      throw createError({
+        statusCode: 500,
+        statusMessage: "\u041F\u043E\u043C\u0438\u043B\u043A\u0430 \u0437\u0430\u043F\u0438\u0442\u0443"
+      });
+    }
+  } else {
+    throw createError({
+      statusCode: 401,
+      statusMessage: "\u0423 \u0434\u043E\u0441\u0442\u0443\u043F\u0456 \u0432\u0456\u0434\u043C\u043E\u0432\u043B\u0435\u043D\u043E. \u0412\u0438 \u043D\u0435 \u0430\u0432\u0442\u043E\u0440\u0438\u0437\u043E\u0432\u0430\u043D\u0456 \u044F\u043A \u0430\u0434\u043C\u0456\u043D\u0456\u0441\u0442\u0440\u0430\u0442\u043E\u0440"
+    });
+  }
+});
+
+const index_get$1 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: index_get
 });
 
 const index = defineEventHandler(async (event) => {

@@ -8,9 +8,6 @@ declare global {
   const appendResponseHeader: typeof import('../../node_modules/h3')['appendResponseHeader']
   const appendResponseHeaders: typeof import('../../node_modules/h3')['appendResponseHeaders']
   const assertMethod: typeof import('../../node_modules/h3')['assertMethod']
-  const authSchema: typeof import('../../server/utils/validations')['authSchema']
-  const authorSchema: typeof import('../../server/utils/validations')['authorSchema']
-  const bookSchema: typeof import('../../server/utils/validations')['bookSchema']
   const cachedEventHandler: typeof import('../../node_modules/nitropack/dist/runtime/internal/cache')['cachedEventHandler']
   const cachedFunction: typeof import('../../node_modules/nitropack/dist/runtime/internal/cache')['cachedFunction']
   const callNodeListener: typeof import('../../node_modules/h3')['callNodeListener']
@@ -82,12 +79,10 @@ declare global {
   const fromNodeMiddleware: typeof import('../../node_modules/h3')['fromNodeMiddleware']
   const fromPlainHandler: typeof import('../../node_modules/h3')['fromPlainHandler']
   const fromWebHandler: typeof import('../../node_modules/h3')['fromWebHandler']
-  const genreSchema: typeof import('../../server/utils/validations')['genreSchema']
   const getAtprotoClientMetadata: typeof import('../../node_modules/nuxt-auth-utils/dist/runtime/server/utils/atproto')['getAtprotoClientMetadata']
   const getCookie: typeof import('../../node_modules/h3')['getCookie']
   const getHeader: typeof import('../../node_modules/h3')['getHeader']
   const getHeaders: typeof import('../../node_modules/h3')['getHeaders']
-  const getLocalStorageData: typeof import('../../server/utils/index')['getLocalStorageData']
   const getMethod: typeof import('../../node_modules/h3')['getMethod']
   const getProxyRequestHeaders: typeof import('../../node_modules/h3')['getProxyRequestHeaders']
   const getQuery: typeof import('../../node_modules/h3')['getQuery']
@@ -154,7 +149,6 @@ declare global {
   const setCookie: typeof import('../../node_modules/h3')['setCookie']
   const setHeader: typeof import('../../node_modules/h3')['setHeader']
   const setHeaders: typeof import('../../node_modules/h3')['setHeaders']
-  const setLocalStorageData: typeof import('../../server/utils/index')['setLocalStorageData']
   const setResponseHeader: typeof import('../../node_modules/h3')['setResponseHeader']
   const setResponseHeaders: typeof import('../../node_modules/h3')['setResponseHeaders']
   const setResponseStatus: typeof import('../../node_modules/h3')['setResponseStatus']
@@ -340,6 +334,4 @@ export { sessionHooks, getUserSession, setUserSession, replaceUserSession, clear
 export { sanitizeUser } from '../../server/utils/auth';
 export { default as db } from '../../server/utils/db';
 export { handleError } from '../../server/utils/error';
-export { getLocalStorageData, setLocalStorageData } from '../../server/utils/index';
 export { stripe } from '../../server/utils/stripe';
-export { authSchema, genreSchema, authorSchema, bookSchema } from '../../server/utils/validations';

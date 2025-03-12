@@ -195,7 +195,7 @@
       </div>
       <FormField
         v-slot="{ componentField }"
-        name="coverURLs">
+        name="coverPaths">
         <FormItem>
           <FormLabel>Обкладинка</FormLabel>
           <FormControl>
@@ -231,7 +231,7 @@
   import type { Author, Genre } from '@prisma/client'
   import { toTypedSchema } from '@vee-validate/zod'
   import { useForm } from 'vee-validate'
-  import { bookSchema } from '~/server/utils/validations'
+  import { bookSchema } from '~/utils/validations'
   import { toast } from '~/components/ui/toast'
 
   const isEditing = ref(true)
@@ -254,7 +254,6 @@
   const formSchema = toTypedSchema(bookSchema)
   const form = useForm({
     validationSchema: formSchema,
-    // @ts-ignore
     initialValues: currentBook.value || {
       title: '',
       authorIds: [],
@@ -265,7 +264,6 @@
       year: 2020,
       isFeatured: true,
       isAvailable: true,
-      coverURLs: [],
     },
   })
 

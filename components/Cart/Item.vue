@@ -3,7 +3,7 @@
     <div class="relative w-20 p-2 overflow-hidden rounded-sm sm:w-40">
       <NuxtImg
         class="aspect-[55/85]"
-        :src="book.coverURLs[0]"
+        :src="book.coverPaths[0]"
         :alt="book.title" />
     </div>
     <div class="relative flex items-center justify-between flex-1 p-2">

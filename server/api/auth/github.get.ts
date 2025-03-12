@@ -1,4 +1,3 @@
-import { sanitizeUser } from '~/server/utils/auth'
 import db from '~/server/utils/db'
 
 export default defineOAuthGitHubEventHandler({
