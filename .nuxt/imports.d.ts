@@ -30,7 +30,10 @@ export { withCtx, withDirectives, withKeys, withMemo, withModifiers, withScopeId
 export { injectHead, useHead, useSeoMeta, useHeadSafe, useServerHead, useServerSeoMeta, useServerHeadSafe } from '@unhead/vue';
 export { useCart } from '../composables/useCart';
 export { getLocalStorageData, setLocalStorageData } from '../utils/localStorage';
+export { toSlug } from '../utils/slug';
 export { authSchema, genreSchema, authorSchema, bookSchema } from '../utils/validations';
+export { useCldImageUrl } from '../node_modules/@nuxtjs/cloudinary/dist/runtime/composables/useCldImageUrl';
+export { useCldVideoUrl } from '../node_modules/@nuxtjs/cloudinary/dist/runtime/composables/useCldVideoUrl';
 export { useColorMode } from '../node_modules/@nuxtjs/color-mode/dist/runtime/composables';
 export { useUserSession } from '../node_modules/nuxt-auth-utils/dist/runtime/app/composables/session';
 export { useImage } from '../node_modules/@nuxt/image/dist/runtime/composables';

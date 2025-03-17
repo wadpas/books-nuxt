@@ -88,7 +88,6 @@
                     <SelectItem
                       multiple="true"
                       v-for="genre in genres"
-                      :key="genre.id"
                       :value="genre.id">
                       {{ genre.name }}
                     </SelectItem>
@@ -192,24 +191,41 @@
             </div>
           </FormItem>
         </FormField>
+        <FormField
+          v-slot="{ componentField, resetField }"
+          name="coverPaths">
+          <FormItem>
+            <FormLabel>Обкладинка</FormLabel>
+            <FormControl>
+              <FileUpload
+                :bookName="toSlug(form.values.title)"
+                buttonName="Обкладинка"
+                @on-change="(id) => resetField({ value: [...componentField.modelValue, ...id] })"
+                :value="componentField.modelValue" />
+            </FormControl>
+            <FormDescription />
+            <FormMessage />
+          </FormItem>
+        </FormField>
+        <FormField
+          v-slot="{ componentField, resetField }"
+          name="filePaths">
+          <FormItem>
+            <FormLabel>Файл</FormLabel>
+            <FormControl>
+              <FileUpload
+                :bookName="toSlug(form.values.title)"
+                buttonName="Обкладинка"
+                @on-change="(id) => resetField({ value: [...componentField.modelValue, ...id] })"
+                :value="componentField.modelValue" />
+            </FormControl>
+            <FormDescription />
+            <FormMessage />
+          </FormItem>
+        </FormField>
       </div>
-      <FormField
-        v-slot="{ componentField }"
-        name="coverPaths">
-        <FormItem>
-          <FormLabel>Обкладинка</FormLabel>
-          <FormControl>
-            <Input
-              type="text"
-              placeholder="URL"
-              v-bind="componentField" />
-          </FormControl>
-          <FormDescription />
-          <FormMessage />
-        </FormItem>
-      </FormField>
       <div class="flex justify-end">
-        <Button type="submit"> Зберегти </Button>
+        <Button type="submit"> Зберегти</Button>
         <Button
           class="ml-4"
           type="button"
@@ -219,6 +235,7 @@
       </div>
     </form>
   </div>
+  {{ form.values }}
   <AlertModal
     :isModalVisible="isModalVisible"
     @on-close="isModalVisible = false"
@@ -255,20 +272,23 @@
   const form = useForm({
     validationSchema: formSchema,
     initialValues: currentBook.value || {
-      title: '',
-      authorIds: [],
-      genreIds: [],
-      description: '',
+      authorIds: ['67c341fee522d2b09b3b6018'],
+      genreIds: ['67c2135c91b0cc8a184ea7c1'],
+      description: 'Nuxt',
       pages: 500,
       price: 399,
       year: 2020,
       isFeatured: true,
       isAvailable: true,
+      coverPaths: [],
+      filePaths: [],
     },
   })
 
   const onSubmit = form.handleSubmit(async (values) => {
-    values.price = Math.max(Math.floor(values.pages - Math.random() * 200), 199)
+    values.price = Math.floor(values.pages * (Math.random() + 0.5))
+    values.title = values.title.trim()
+
     try {
       if (isEditing.value) {
         await $fetch(`/api/books/${route.params.slug}`, {
@@ -287,6 +307,7 @@
         description: 'Всі дані були успішно збережені',
       })
     } catch (error: unknown) {
+      console.log(error)
       const err = error as APIError
       toast({
         variant: 'destructive',

@@ -2,28 +2,16 @@ import db from '~/server/utils/db'
 import CyrillicToTranslit from 'cyrillic-to-translit-js'
 import { bookSchema } from '~/utils/validations'
 import type { User } from '@prisma/client'
+import { toSlug } from '~/utils/slug'
 
 export default defineEventHandler(async (event) => {
-  const cyrillicToTranslit = CyrillicToTranslit({ preset: 'uk' })
   const session = await requireUserSession(event)
   const user = session.user as User
 
   if (user && user?.role === 'admin') {
-    const {
-      title,
-      description,
-      coverPath1,
-      coverPath2,
-      year,
-      pages,
-      genreIds,
-      authorIds,
-      price,
-      isFeatured,
-      isAvailable,
-      filePath,
-    } = await readValidatedBody(event, (body) => bookSchema.parse(body))
-    const slug = cyrillicToTranslit.transform(title.trim(), '-').replaceAll('.', '').replaceAll(',', '').toLowerCase()
+    const { title, description, year, pages, genreIds, coverPaths, authorIds, price, isFeatured, isAvailable } =
+      await readValidatedBody(event, (body) => bookSchema.parse(body))
+    const slug = toSlug(title)
 
     try {
       let book = await db.book.findUnique({
@@ -37,15 +25,15 @@ export default defineEventHandler(async (event) => {
       }
       book = await db.book.create({
         data: {
-          title,
+          title: title.trim(),
           slug,
           description,
-          coverPaths: [coverPath1, coverPath2],
+          coverPaths,
           year,
           pages,
           genreIds,
           authorIds,
-          filePath: [filePath],
+          filePaths: [],
           price,
           creatorId: user.id,
           isFeatured,
@@ -54,6 +42,8 @@ export default defineEventHandler(async (event) => {
       })
       return book
     } catch (error) {
+      console.log(error)
+
       throw createError({
         statusCode: 500,
         statusMessage: 'Помилка при створенні нової книги',

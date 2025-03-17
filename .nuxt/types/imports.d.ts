@@ -94,6 +94,7 @@ declare global {
   const toRaw: typeof import('vue')['toRaw']
   const toRef: typeof import('vue')['toRef']
   const toRefs: typeof import('vue')['toRefs']
+  const toSlug: typeof import('../../utils/slug')['toSlug']
   const toValue: typeof import('vue')['toValue']
   const triggerRef: typeof import('vue')['triggerRef']
   const tryUseNuxtApp: typeof import('../../node_modules/nuxt/dist/app/nuxt')['tryUseNuxtApp']
@@ -103,6 +104,8 @@ declare global {
   const useAsyncData: typeof import('../../node_modules/nuxt/dist/app/composables/asyncData')['useAsyncData']
   const useAttrs: typeof import('vue')['useAttrs']
   const useCart: typeof import('../../composables/useCart')['useCart']
+  const useCldImageUrl: typeof import('../../node_modules/@nuxtjs/cloudinary/dist/runtime/composables/useCldImageUrl')['useCldImageUrl']
+  const useCldVideoUrl: typeof import('../../node_modules/@nuxtjs/cloudinary/dist/runtime/composables/useCldVideoUrl')['useCldVideoUrl']
   const useColorMode: typeof import('../../node_modules/@nuxtjs/color-mode/dist/runtime/composables')['useColorMode']
   const useCookie: typeof import('../../node_modules/nuxt/dist/app/composables/cookie')['useCookie']
   const useCssModule: typeof import('vue')['useCssModule']
@@ -282,6 +285,7 @@ declare module 'vue' {
     readonly toRaw: UnwrapRef<typeof import('vue')['toRaw']>
     readonly toRef: UnwrapRef<typeof import('vue')['toRef']>
     readonly toRefs: UnwrapRef<typeof import('vue')['toRefs']>
+    readonly toSlug: UnwrapRef<typeof import('../../utils/slug')['toSlug']>
     readonly toValue: UnwrapRef<typeof import('vue')['toValue']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly tryUseNuxtApp: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/nuxt')['tryUseNuxtApp']>
@@ -291,6 +295,8 @@ declare module 'vue' {
     readonly useAsyncData: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/asyncData')['useAsyncData']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
     readonly useCart: UnwrapRef<typeof import('../../composables/useCart')['useCart']>
+    readonly useCldImageUrl: UnwrapRef<typeof import('../../node_modules/@nuxtjs/cloudinary/dist/runtime/composables/useCldImageUrl')['useCldImageUrl']>
+    readonly useCldVideoUrl: UnwrapRef<typeof import('../../node_modules/@nuxtjs/cloudinary/dist/runtime/composables/useCldVideoUrl')['useCldVideoUrl']>
     readonly useColorMode: UnwrapRef<typeof import('../../node_modules/@nuxtjs/color-mode/dist/runtime/composables')['useColorMode']>
     readonly useCookie: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/cookie')['useCookie']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>

@@ -26,6 +26,12 @@ declare module "nitropack/types" {
       'get': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/books/[slug]/index.get').default>>>>
       'patch': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/books/[slug]/index.patch').default>>>>
     }
+    '/api/books/cover': {
+      'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/books/cover.post').default>>>>
+    }
+    '/api/books/file': {
+      'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/books/file.post').default>>>>
+    }
     '/api/books': {
       'get': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/books/index.get').default>>>>
       'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/books/index.post').default>>>>

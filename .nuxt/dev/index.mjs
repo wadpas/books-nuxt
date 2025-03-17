@@ -3,7 +3,7 @@ import { Server } from 'node:http';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { parentPort, threadId } from 'node:worker_threads';
-import { getRequestHeader, splitCookiesString, setResponseStatus, setResponseHeader, send, getRequestHeaders, defineEventHandler, handleCacheHeaders, createEvent, fetchWithEvent, isEvent, eventHandler, getResponseStatus, setResponseHeaders, setHeaders, sendRedirect, proxyRequest, createError, getRequestURL, getQuery as getQuery$1, useSession, lazyEventHandler, useBase, createApp, createRouter as createRouter$1, toNodeListener, getRouterParam, readBody, readValidatedBody, getHeader, readRawBody, getResponseStatusText } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/h3/dist/index.mjs';
+import { getRequestHeader, splitCookiesString, setResponseStatus, setResponseHeader, send, getRequestHeaders, defineEventHandler, handleCacheHeaders, createEvent, fetchWithEvent, isEvent, eventHandler, getResponseStatus, setResponseHeaders, setHeaders, sendRedirect, proxyRequest, createError, getRequestURL, getQuery as getQuery$1, useSession, lazyEventHandler, useBase, createApp, createRouter as createRouter$1, toNodeListener, getRouterParam, readBody, readValidatedBody, readMultipartFormData, getHeader, readRawBody, getResponseStatusText } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/h3/dist/index.mjs';
 import { withQuery, joinURL, withTrailingSlash, parseURL, withoutBase, getQuery, joinRelativeURL } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/ufo/dist/index.mjs';
 import defu, { defuFn, defu as defu$1 } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/defu/dist/defu.mjs';
 import { FetchError, createFetch as createFetch$1, Headers as Headers$1 } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/ofetch/dist/node.mjs';
@@ -11,6 +11,9 @@ import { snakeCase, upperFirst } from 'file://C:/Users/Wad/Desktop/apps/books-nu
 import { Hash } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/@adonisjs/hash/build/index.js';
 import { Scrypt } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/@adonisjs/hash/build/src/drivers/scrypt.js';
 import CyrillicToTranslit from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/cyrillic-to-translit-js/CyrillicToTranslit.js';
+import path from 'path';
+import fs from 'fs';
+import sharp from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/sharp/lib/index.js';
 import { z } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/zod/lib/index.mjs';
 import Stripe from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/stripe/esm/stripe.esm.node.js';
 import { PrismaClient } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/@prisma/client/default.js';
@@ -585,7 +588,19 @@ const _inlineRuntimeConfig = {
       }
     }
   },
-  "public": {},
+  "public": {
+    "cloudinaryCloudName": "",
+    "uploadPreset": "books-nuxt",
+    "stripeKey": "",
+    "cloudinary": {
+      "cloudName": "",
+      "uploadPreset": "",
+      "apiKey": "",
+      "analytics": true,
+      "cloud": "",
+      "url": ""
+    }
+  },
   "stripeSecret": "pk_test_51R1OomGX3Ub2fy4SdRNnp7TlvnFBmLkuTB8fzSKgyvtzCGm7dggdBN1eKVnuKQQyE1nJS8psW2KphqU2SYPMAQsW00JghH3XsW",
   "stripeWebhookSecret": "whsec_f7fc8cebaead75371f81d7bf2c0e19c7e900dbb788eeb6c7b85ddd16c1a005ca",
   "session": {
@@ -1691,6 +1706,8 @@ const _lazy_Z05PZF = () => Promise.resolve().then(function () { return index_pos
 const _lazy_tcQJ5P = () => Promise.resolve().then(function () { return index_delete$3; });
 const _lazy_dDbK2N = () => Promise.resolve().then(function () { return index_get$9; });
 const _lazy_66uBaD = () => Promise.resolve().then(function () { return index_patch$3; });
+const _lazy_9xtpsq = () => Promise.resolve().then(function () { return cover_post$1; });
+const _lazy_9jk7eQ = () => Promise.resolve().then(function () { return file_post$1; });
 const _lazy_9eui6I = () => Promise.resolve().then(function () { return index_get$7; });
 const _lazy_nmqs0X = () => Promise.resolve().then(function () { return index_post$5; });
 const _lazy_uvnLSA = () => Promise.resolve().then(function () { return index_post$3; });
@@ -1715,6 +1732,8 @@ const handlers = [
   { route: '/api/books/:slug', handler: _lazy_tcQJ5P, lazy: true, middleware: false, method: "delete" },
   { route: '/api/books/:slug', handler: _lazy_dDbK2N, lazy: true, middleware: false, method: "get" },
   { route: '/api/books/:slug', handler: _lazy_66uBaD, lazy: true, middleware: false, method: "patch" },
+  { route: '/api/books/cover', handler: _lazy_9xtpsq, lazy: true, middleware: false, method: "post" },
+  { route: '/api/books/file', handler: _lazy_9jk7eQ, lazy: true, middleware: false, method: "post" },
   { route: '/api/books', handler: _lazy_9eui6I, lazy: true, middleware: false, method: "get" },
   { route: '/api/books', handler: _lazy_nmqs0X, lazy: true, middleware: false, method: "post" },
   { route: '/api/checkout', handler: _lazy_uvnLSA, lazy: true, middleware: false, method: "post" },
@@ -1995,9 +2014,8 @@ const bookSchema = z.object({
   authorIds: z.string().array().min(1, { message: "\u0414\u043E\u0434\u0430\u0439\u0442\u0435 \u0430\u0432\u0442\u043E\u0440\u0430 \u043A\u043D\u0438\u0433\u0438" }),
   genreIds: z.string().array().min(1, { message: "\u0414\u043E\u0434\u0430\u0439\u0442\u0435 \u0436\u0430\u043D\u0440 \u043A\u043D\u0438\u0433\u0438" }),
   description: z.string().min(1, { message: "\u0412\u0432\u0435\u0434\u0456\u0442\u044C \u043E\u043F\u0438\u0441 \u043A\u043D\u0438\u0433\u0438" }),
-  coverPath1: z.string().min(1, { message: "\u0412\u0432\u0435\u0434\u0456\u0442\u044C \u043E\u0431\u043A\u043B\u0430\u0434\u0438\u043D\u043A\u0443 \u043A\u043D\u0438\u0433\u0438" }),
-  coverPath2: z.string().min(1, { message: "\u0412\u0432\u0435\u0434\u0456\u0442\u044C \u043E\u0431\u043A\u043B\u0430\u0434\u0438\u043D\u043A\u0443 \u043A\u043D\u0438\u0433\u0438" }),
-  filePath: z.string().min(1, { message: "\u0412\u0432\u0435\u0434\u0456\u0442\u044C \u0444\u0430\u0439\u043B \u043A\u043D\u0438\u0433\u0438" }),
+  coverPaths: z.string().array().min(1, { message: "\u0414\u043E\u0434\u0430\u0439\u0442\u0435 \u0437\u043E\u0431\u0440\u0430\u0436\u0435\u043D\u043D\u044F \u043A\u043D\u0438\u0433\u0438" }),
+  filePaths: z.string().array().min(1, { message: "\u0414\u043E\u0434\u0430\u0439\u0442\u0435 \u0444\u0430\u0439\u043B \u043A\u043D\u0438\u0433\u0438" }),
   year: z.coerce.number().min(4, { message: "\u0412\u0432\u0435\u0434\u0456\u0442\u044C \u0440\u0456\u043A \u0432\u0438\u0434\u0430\u043D\u043D\u044F" }),
   pages: z.coerce.number().min(1, { message: "\u0412\u0432\u0435\u0434\u0456\u0442\u044C \u043A\u0456\u043B\u044C\u043A\u0456\u0441\u0442\u044C \u0441\u0442\u043E\u0440\u0456\u043D\u043E\u043A" }),
   price: z.coerce.number().min(1, { message: "\u0412\u0432\u0435\u0434\u0456\u0442\u044C \u0446\u0456\u043D\u0443 \u043A\u043D\u0438\u0433\u0438" }),
@@ -2330,6 +2348,81 @@ const index_patch$3 = /*#__PURE__*/Object.freeze({
   default: index_patch$2
 });
 
+const cover_post = defineEventHandler(async (event) => {
+  try {
+    const files = await readMultipartFormData(event);
+    const { bookName } = getQuery$1(event);
+    if (!files || !bookName) {
+      return createError({ statusCode: 400, statusMessage: "No files uploaded" });
+    }
+    const dir = path.join("public/books", bookName.toString());
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir);
+    }
+    const filePaths = [];
+    files.forEach((file, index) => {
+      const { filename, data, type, name } = file;
+      if (!filename || !data || !type || !name) {
+        return createError({ statusCode: 400, statusMessage: "Invalid file" });
+      }
+      let fsFilename = name + path.extname(filename);
+      if (type.startsWith("image")) {
+        fsFilename = name + `_${index}` + path.extname(filename);
+      }
+      const filePath = path.join(dir, fsFilename);
+      fs.writeFileSync(filePath, data);
+      filePaths.push(fsFilename);
+    });
+    return filePaths;
+  } catch (error) {
+    console.log(error);
+    return createError({ statusCode: 500, statusMessage: "Something went wrong" });
+  }
+});
+
+const cover_post$1 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: cover_post
+});
+
+const file_post = defineEventHandler(async (event) => {
+  try {
+    const files = await readMultipartFormData(event);
+    if (!files) {
+      return createError({ statusCode: 400, statusMessage: "No files uploaded" });
+    }
+    const dir = path.join("public/books", files[0].name);
+    if (fs.existsSync(dir)) {
+      return createError({ statusCode: 400, statusMessage: "Book already exists" });
+    }
+    fs.mkdirSync(dir);
+    const bookPaths = [];
+    files.forEach((file, index) => {
+      const { filename, data, type, name } = file;
+      if (!filename || !data || !type || !name) {
+        return createError({ statusCode: 400, statusMessage: "Invalid file" });
+      }
+      if (type.startsWith("image")) {
+        const imageName = name + `_${index}.webp`;
+        sharp(data).resize(300, 450, { fit: "fill" }).webp({ quality: 80 }).toFile(path.join(dir, imageName)).then(() => bookPaths.push(imageName));
+      } else {
+        const bookName = name + path.extname(filename);
+        fs.writeFileSync(path.join(dir, bookName), data);
+        bookPaths.push(bookName);
+      }
+    });
+    return bookPaths;
+  } catch (error) {
+    console.log(error);
+    return createError({ statusCode: 500, statusMessage: "Something went wrong" });
+  }
+});
+
+const file_post$1 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: file_post
+});
+
 const index_get$6 = defineEventHandler(async (event) => {
   const { genreId, authorId } = getQuery$1(event);
   const queryParams = {};
@@ -2350,7 +2443,7 @@ const index_get$6 = defineEventHandler(async (event) => {
     include: {
       authors: true,
       genres: true,
-      commentIds: true
+      comments: true
     },
     where: queryParams
   });
@@ -2362,26 +2455,18 @@ const index_get$7 = /*#__PURE__*/Object.freeze({
   default: index_get$6
 });
 
+const cyrillicToTranslit = CyrillicToTranslit({ preset: "uk" });
+function toSlug(str) {
+  if (!str) return "";
+  return cyrillicToTranslit.transform(str.trim(), "-").replaceAll(".", "").replaceAll(",", "").replaceAll(":", "").replaceAll(";", "").replaceAll("?", "").replaceAll("!", "").toLowerCase();
+}
+
 const index_post$4 = defineEventHandler(async (event) => {
-  const cyrillicToTranslit = CyrillicToTranslit({ preset: "uk" });
   const session = await requireUserSession(event);
   const user = session.user;
   if (user && (user == null ? void 0 : user.role) === "admin") {
-    const {
-      title,
-      description,
-      coverPath1,
-      coverPath2,
-      year,
-      pages,
-      genreIds,
-      authorIds,
-      price,
-      isFeatured,
-      isAvailable,
-      filePath
-    } = await readValidatedBody(event, (body) => bookSchema.parse(body));
-    const slug = cyrillicToTranslit.transform(title.trim(), "-").replaceAll(".", "").replaceAll(",", "").toLowerCase();
+    const { title, description, year, pages, genreIds, coverPaths, authorIds, price, isFeatured, isAvailable } = await readValidatedBody(event, (body) => bookSchema.parse(body));
+    const slug = toSlug(title);
     try {
       let book = await db.book.findUnique({
         where: { slug }
@@ -2394,15 +2479,15 @@ const index_post$4 = defineEventHandler(async (event) => {
       }
       book = await db.book.create({
         data: {
-          title,
+          title: title.trim(),
           slug,
           description,
-          coverPaths: [coverPath1, coverPath2],
+          coverPaths,
           year,
           pages,
           genreIds,
           authorIds,
-          filePath: [filePath],
+          filePaths: [],
           price,
           creatorId: user.id,
           isFeatured,
@@ -2411,6 +2496,7 @@ const index_post$4 = defineEventHandler(async (event) => {
       });
       return book;
     } catch (error) {
+      console.log(error);
       throw createError({
         statusCode: 500,
         statusMessage: "\u041F\u043E\u043C\u0438\u043B\u043A\u0430 \u043F\u0440\u0438 \u0441\u0442\u0432\u043E\u0440\u0435\u043D\u043D\u0456 \u043D\u043E\u0432\u043E\u0457 \u043A\u043D\u0438\u0433\u0438"

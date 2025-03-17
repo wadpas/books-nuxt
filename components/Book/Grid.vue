@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-2 gap-6 mx-auto mt-4 lg:grid-cols-7">
+  <div class="grid grid-cols-2 gap-6 mx-auto mt-4 xl:grid-cols-6 2xl:grid-cols-7">
     <BookCard
       v-for="book in books"
       :key="book.id"

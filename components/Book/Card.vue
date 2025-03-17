@@ -11,14 +11,14 @@
         <p class="">{{ book.price }} грн</p>
         <div class="absolute bottom-0 right-0">
           <Button
-            v-if="!inCart(book).value"
+            v-show="!inCart(book).value"
             size="xs"
             class="text-white bg-rose-500"
             @click.prevent="addBook(book)">
             Купити
           </Button>
           <Button
-            v-if="inCart(book).value"
+            v-show="inCart(book).value"
             size="xs"
             class="text-white bg-green-500"
             @click.prevent="() => navigateTo('/cart')">
