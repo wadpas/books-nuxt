@@ -2,7 +2,7 @@
   <NuxtLink :to="`/books/${book.slug}`">
     <div class="relative flex flex-col justify-end rounded-sm shadow-sm">
       <NuxtImg
-        :src="book.coverPaths[0]"
+        :src="`/books/${book.slug}/${book.coverPaths[0]}`"
         :alt="book.title"
         class="aspect-[55/85] rounded-sm" />
       <div class="px-2 pt-2 pb-1 space-y-2">

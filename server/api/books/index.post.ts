@@ -1,5 +1,4 @@
 import db from '~/server/utils/db'
-import CyrillicToTranslit from 'cyrillic-to-translit-js'
 import { bookSchema } from '~/utils/validations'
 import type { User } from '@prisma/client'
 import { toSlug } from '~/utils/slug'

@@ -1,6 +1,7 @@
 import type { Author, Genre } from '@prisma/client'
-
+// delete!
 export type APIError = {
+  title: string
   statusCode: number
   statusMessage: string
   message: string

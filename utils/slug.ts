@@ -1,7 +1,7 @@
 import CyrillicToTranslit from 'cyrillic-to-translit-js'
 const cyrillicToTranslit = CyrillicToTranslit({ preset: 'uk' })
 
-export function toSlug(str: string) {
+export function toUpSlug(str: string) {
   if (!str) return ''
   return cyrillicToTranslit
     .transform(str.trim(), '-')
@@ -12,4 +12,8 @@ export function toSlug(str: string) {
     .replaceAll('?', '')
     .replaceAll('!', '')
     .toLowerCase()
+}
+
+export function toSlug(str: string) {
+  return toUpSlug(str).toLowerCase()
 }

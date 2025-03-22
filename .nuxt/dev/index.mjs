@@ -11,10 +11,10 @@ import { snakeCase, upperFirst } from 'file://C:/Users/Wad/Desktop/apps/books-nu
 import { Hash } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/@adonisjs/hash/build/index.js';
 import { Scrypt } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/@adonisjs/hash/build/src/drivers/scrypt.js';
 import CyrillicToTranslit from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/cyrillic-to-translit-js/CyrillicToTranslit.js';
+import { z } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/zod/lib/index.mjs';
 import path from 'path';
 import fs from 'fs';
 import sharp from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/sharp/lib/index.js';
-import { z } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/zod/lib/index.mjs';
 import Stripe from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/stripe/esm/stripe.esm.node.js';
 import { PrismaClient } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/@prisma/client/default.js';
 import { getRequestDependencies, getPreloadLinks, getPrefetchLinks, createRenderer } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/vue-bundle-renderer/dist/runtime.mjs';
@@ -564,15 +564,21 @@ const _inlineRuntimeConfig = {
       "/__nuxt_error": {
         "cache": false
       },
+      "/auth": {
+        "redirect": {
+          "to": "/auth/login",
+          "statusCode": 307
+        }
+      },
       "/": {
         "redirect": {
           "to": "/books",
           "statusCode": 307
         }
       },
-      "/auth": {
+      "/admin": {
         "redirect": {
-          "to": "/auth/login",
+          "to": "/admin/books",
           "statusCode": 307
         }
       },
@@ -1698,24 +1704,24 @@ const _7C0wvA = lazyEventHandler(() => {
 const _lazy_Ej1chm = () => Promise.resolve().then(function () { return github_get$1; });
 const _lazy_EwjYhE = () => Promise.resolve().then(function () { return login_post$1; });
 const _lazy_51VOrk = () => Promise.resolve().then(function () { return register_post$1; });
-const _lazy_XojTn6 = () => Promise.resolve().then(function () { return index_delete$5; });
+const _lazy_XojTn6 = () => Promise.resolve().then(function () { return index_delete$7; });
 const _lazy_9Y4jpp = () => Promise.resolve().then(function () { return index_get$d; });
 const _lazy_MrZOBd = () => Promise.resolve().then(function () { return index_patch$5; });
 const _lazy_TW36Jx = () => Promise.resolve().then(function () { return index_get$b; });
-const _lazy_Z05PZF = () => Promise.resolve().then(function () { return index_post$7; });
-const _lazy_tcQJ5P = () => Promise.resolve().then(function () { return index_delete$3; });
+const _lazy_Z05PZF = () => Promise.resolve().then(function () { return index_post$9; });
+const _lazy_tcQJ5P = () => Promise.resolve().then(function () { return index_delete$5; });
 const _lazy_dDbK2N = () => Promise.resolve().then(function () { return index_get$9; });
 const _lazy_66uBaD = () => Promise.resolve().then(function () { return index_patch$3; });
-const _lazy_9xtpsq = () => Promise.resolve().then(function () { return cover_post$1; });
-const _lazy_9jk7eQ = () => Promise.resolve().then(function () { return file_post$1; });
 const _lazy_9eui6I = () => Promise.resolve().then(function () { return index_get$7; });
-const _lazy_nmqs0X = () => Promise.resolve().then(function () { return index_post$5; });
-const _lazy_uvnLSA = () => Promise.resolve().then(function () { return index_post$3; });
-const _lazy_XQ0Dpm = () => Promise.resolve().then(function () { return index_delete$1; });
+const _lazy_nmqs0X = () => Promise.resolve().then(function () { return index_post$7; });
+const _lazy_uvnLSA = () => Promise.resolve().then(function () { return index_post$5; });
+const _lazy_XQ0Dpm = () => Promise.resolve().then(function () { return index_delete$3; });
 const _lazy_TtDnFc = () => Promise.resolve().then(function () { return index_get$5; });
 const _lazy_jVNdCP = () => Promise.resolve().then(function () { return index_patch$1; });
 const _lazy_FgRSH3 = () => Promise.resolve().then(function () { return index_get$3; });
-const _lazy_FkEbU9 = () => Promise.resolve().then(function () { return index_post$1; });
+const _lazy_FkEbU9 = () => Promise.resolve().then(function () { return index_post$3; });
+const _lazy_LBYWdY = () => Promise.resolve().then(function () { return index_delete$1; });
+const _lazy_ANHPb6 = () => Promise.resolve().then(function () { return index_post$1; });
 const _lazy_9p0UWi = () => Promise.resolve().then(function () { return index_get$1; });
 const _lazy_Qgqtz2 = () => Promise.resolve().then(function () { return index$1; });
 const _lazy_Sgl683 = () => Promise.resolve().then(function () { return renderer$1; });
@@ -1732,8 +1738,6 @@ const handlers = [
   { route: '/api/books/:slug', handler: _lazy_tcQJ5P, lazy: true, middleware: false, method: "delete" },
   { route: '/api/books/:slug', handler: _lazy_dDbK2N, lazy: true, middleware: false, method: "get" },
   { route: '/api/books/:slug', handler: _lazy_66uBaD, lazy: true, middleware: false, method: "patch" },
-  { route: '/api/books/cover', handler: _lazy_9xtpsq, lazy: true, middleware: false, method: "post" },
-  { route: '/api/books/file', handler: _lazy_9jk7eQ, lazy: true, middleware: false, method: "post" },
   { route: '/api/books', handler: _lazy_9eui6I, lazy: true, middleware: false, method: "get" },
   { route: '/api/books', handler: _lazy_nmqs0X, lazy: true, middleware: false, method: "post" },
   { route: '/api/checkout', handler: _lazy_uvnLSA, lazy: true, middleware: false, method: "post" },
@@ -1742,6 +1746,8 @@ const handlers = [
   { route: '/api/genres/:slug', handler: _lazy_jVNdCP, lazy: true, middleware: false, method: "patch" },
   { route: '/api/genres', handler: _lazy_FgRSH3, lazy: true, middleware: false, method: "get" },
   { route: '/api/genres', handler: _lazy_FkEbU9, lazy: true, middleware: false, method: "post" },
+  { route: '/api/upload', handler: _lazy_LBYWdY, lazy: true, middleware: false, method: "delete" },
+  { route: '/api/upload', handler: _lazy_ANHPb6, lazy: true, middleware: false, method: "post" },
   { route: '/api/users', handler: _lazy_9p0UWi, lazy: true, middleware: false, method: "get" },
   { route: '/api/webhooks', handler: _lazy_Qgqtz2, lazy: true, middleware: false, method: undefined },
   { route: '/__nuxt_error', handler: _lazy_Sgl683, lazy: true, middleware: false, method: undefined },
@@ -2001,7 +2007,11 @@ const github_get$1 = /*#__PURE__*/Object.freeze({
 
 const authSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(8)
+  password: z.string().min(8),
+  repeatPassword: z.string().min(8)
+}).refine((data) => data.password === data.repeatPassword, {
+  message: "\u041F\u0430\u0440\u043E\u043B\u0456 \u043D\u0435 \u0441\u043F\u0456\u0432\u043F\u0430\u0434\u0430\u044E\u0442\u044C",
+  path: ["repeatPassword"]
 });
 const genreSchema = z.object({
   name: z.string().min(1, { message: "\u0412\u0432\u0435\u0434\u0456\u0442\u044C \u043D\u0430\u0437\u0432\u0443 \u0436\u0430\u043D\u0440\u0443" })
@@ -2032,7 +2042,7 @@ const login_post = defineEventHandler(async (event) => {
   });
   if (!currentUser) {
     throw createError({
-      statusCode: 402,
+      statusCode: 400,
       statusMessage: "\u041D\u0435\u0432\u0456\u0440\u043D\u0456 \u043E\u0431\u043B\u0456\u043A\u043E\u0432\u0456 \u0434\u0430\u043D\u0456"
     });
   }
@@ -2045,7 +2055,7 @@ const login_post = defineEventHandler(async (event) => {
     if (userOAuthAccount) {
       const oAuthProvider = userOAuthAccount.providerId;
       throw createError({
-        statusCode: 403,
+        statusCode: 400,
         statusMessage: `Please login with ${oAuthProvider}`
       });
     }
@@ -2054,7 +2064,7 @@ const login_post = defineEventHandler(async (event) => {
     const isPasswordCorrect = await verifyPassword(currentUser.password, password);
     if (!isPasswordCorrect) {
       throw createError({
-        statusCode: 401,
+        statusCode: 400,
         statusMessage: "\u041D\u0435\u0432\u0456\u0440\u043D\u0456 \u043E\u0431\u043B\u0456\u043A\u043E\u0432\u0456 \u0434\u0430\u043D\u0456"
       });
     }
@@ -2081,7 +2091,7 @@ const register_post = defineEventHandler(async (event) => {
   if (currentUser) {
     throw createError({
       statusCode: 400,
-      statusMessage: "User already exists"
+      statusMessage: `\u041A\u043E\u0440\u0438\u0441\u0442\u0443\u0432\u0430\u0447 \u0437 \u043F\u043E\u0448\u0442\u043E\u044E ${email} \u0432\u0436\u0435 \u0456\u0441\u043D\u0443\u0454`
     });
   }
   const hashedPassword = await hashPassword(password);
@@ -2104,7 +2114,7 @@ const register_post$1 = /*#__PURE__*/Object.freeze({
   default: register_post
 });
 
-const index_delete$4 = defineEventHandler(async (event) => {
+const index_delete$6 = defineEventHandler(async (event) => {
   var _a, _b;
   const session = await requireUserSession(event);
   if (session.user && ((_a = session.user) == null ? void 0 : _a.role) === "admin") {
@@ -2128,9 +2138,9 @@ const index_delete$4 = defineEventHandler(async (event) => {
   }
 });
 
-const index_delete$5 = /*#__PURE__*/Object.freeze({
+const index_delete$7 = /*#__PURE__*/Object.freeze({
   __proto__: null,
-  default: index_delete$4
+  default: index_delete$6
 });
 
 const index_get$c = defineEventHandler(async (event) => {
@@ -2199,7 +2209,7 @@ const index_get$b = /*#__PURE__*/Object.freeze({
   default: index_get$a
 });
 
-const index_post$6 = defineEventHandler(async (event) => {
+const index_post$8 = defineEventHandler(async (event) => {
   const cyrillicToTranslit = CyrillicToTranslit({ preset: "uk" });
   const session = await requireUserSession(event);
   const user = session.user;
@@ -2235,12 +2245,12 @@ const index_post$6 = defineEventHandler(async (event) => {
   }
 });
 
-const index_post$7 = /*#__PURE__*/Object.freeze({
+const index_post$9 = /*#__PURE__*/Object.freeze({
   __proto__: null,
-  default: index_post$6
+  default: index_post$8
 });
 
-const index_delete$2 = defineEventHandler(async (event) => {
+const index_delete$4 = defineEventHandler(async (event) => {
   var _a, _b;
   const session = await requireUserSession(event);
   if (session.user && ((_a = session.user) == null ? void 0 : _a.role) === "admin") {
@@ -2264,9 +2274,9 @@ const index_delete$2 = defineEventHandler(async (event) => {
   }
 });
 
-const index_delete$3 = /*#__PURE__*/Object.freeze({
+const index_delete$5 = /*#__PURE__*/Object.freeze({
   __proto__: null,
-  default: index_delete$2
+  default: index_delete$4
 });
 
 const index_get$8 = defineEventHandler(async (event) => {
@@ -2297,8 +2307,8 @@ const index_patch$2 = defineEventHandler(async (event) => {
     const {
       title,
       description,
-      coverPath1,
-      coverPath2,
+      coverPaths,
+      filePaths,
       year,
       pages,
       genreIds,
@@ -2317,13 +2327,13 @@ const index_patch$2 = defineEventHandler(async (event) => {
           title,
           slug,
           description,
-          coverPaths: [coverPath1, coverPath2],
+          coverPaths,
+          filePaths,
           year,
           pages,
           genreIds,
           authorIds,
           price,
-          creatorId: sessionUser.id,
           isFeatured,
           isAvailable
         }
@@ -2346,81 +2356,6 @@ const index_patch$2 = defineEventHandler(async (event) => {
 const index_patch$3 = /*#__PURE__*/Object.freeze({
   __proto__: null,
   default: index_patch$2
-});
-
-const cover_post = defineEventHandler(async (event) => {
-  try {
-    const files = await readMultipartFormData(event);
-    const { bookName } = getQuery$1(event);
-    if (!files || !bookName) {
-      return createError({ statusCode: 400, statusMessage: "No files uploaded" });
-    }
-    const dir = path.join("public/books", bookName.toString());
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir);
-    }
-    const filePaths = [];
-    files.forEach((file, index) => {
-      const { filename, data, type, name } = file;
-      if (!filename || !data || !type || !name) {
-        return createError({ statusCode: 400, statusMessage: "Invalid file" });
-      }
-      let fsFilename = name + path.extname(filename);
-      if (type.startsWith("image")) {
-        fsFilename = name + `_${index}` + path.extname(filename);
-      }
-      const filePath = path.join(dir, fsFilename);
-      fs.writeFileSync(filePath, data);
-      filePaths.push(fsFilename);
-    });
-    return filePaths;
-  } catch (error) {
-    console.log(error);
-    return createError({ statusCode: 500, statusMessage: "Something went wrong" });
-  }
-});
-
-const cover_post$1 = /*#__PURE__*/Object.freeze({
-  __proto__: null,
-  default: cover_post
-});
-
-const file_post = defineEventHandler(async (event) => {
-  try {
-    const files = await readMultipartFormData(event);
-    if (!files) {
-      return createError({ statusCode: 400, statusMessage: "No files uploaded" });
-    }
-    const dir = path.join("public/books", files[0].name);
-    if (fs.existsSync(dir)) {
-      return createError({ statusCode: 400, statusMessage: "Book already exists" });
-    }
-    fs.mkdirSync(dir);
-    const bookPaths = [];
-    files.forEach((file, index) => {
-      const { filename, data, type, name } = file;
-      if (!filename || !data || !type || !name) {
-        return createError({ statusCode: 400, statusMessage: "Invalid file" });
-      }
-      if (type.startsWith("image")) {
-        const imageName = name + `_${index}.webp`;
-        sharp(data).resize(300, 450, { fit: "fill" }).webp({ quality: 80 }).toFile(path.join(dir, imageName)).then(() => bookPaths.push(imageName));
-      } else {
-        const bookName = name + path.extname(filename);
-        fs.writeFileSync(path.join(dir, bookName), data);
-        bookPaths.push(bookName);
-      }
-    });
-    return bookPaths;
-  } catch (error) {
-    console.log(error);
-    return createError({ statusCode: 500, statusMessage: "Something went wrong" });
-  }
-});
-
-const file_post$1 = /*#__PURE__*/Object.freeze({
-  __proto__: null,
-  default: file_post
 });
 
 const index_get$6 = defineEventHandler(async (event) => {
@@ -2456,12 +2391,15 @@ const index_get$7 = /*#__PURE__*/Object.freeze({
 });
 
 const cyrillicToTranslit = CyrillicToTranslit({ preset: "uk" });
-function toSlug(str) {
+function toUpSlug(str) {
   if (!str) return "";
   return cyrillicToTranslit.transform(str.trim(), "-").replaceAll(".", "").replaceAll(",", "").replaceAll(":", "").replaceAll(";", "").replaceAll("?", "").replaceAll("!", "").toLowerCase();
 }
+function toSlug(str) {
+  return toUpSlug(str).toLowerCase();
+}
 
-const index_post$4 = defineEventHandler(async (event) => {
+const index_post$6 = defineEventHandler(async (event) => {
   const session = await requireUserSession(event);
   const user = session.user;
   if (user && (user == null ? void 0 : user.role) === "admin") {
@@ -2510,12 +2448,12 @@ const index_post$4 = defineEventHandler(async (event) => {
   }
 });
 
-const index_post$5 = /*#__PURE__*/Object.freeze({
+const index_post$7 = /*#__PURE__*/Object.freeze({
   __proto__: null,
-  default: index_post$4
+  default: index_post$6
 });
 
-const index_post$2 = defineEventHandler(async (event) => {
+const index_post$4 = defineEventHandler(async (event) => {
   const { books, user } = await readBody(event);
   if (!books) {
     throw createError({
@@ -2552,12 +2490,12 @@ const index_post$2 = defineEventHandler(async (event) => {
   return session.url;
 });
 
-const index_post$3 = /*#__PURE__*/Object.freeze({
+const index_post$5 = /*#__PURE__*/Object.freeze({
   __proto__: null,
-  default: index_post$2
+  default: index_post$4
 });
 
-const index_delete = defineEventHandler(async (event) => {
+const index_delete$2 = defineEventHandler(async (event) => {
   var _a, _b;
   const session = await requireUserSession(event);
   if (session.user && ((_a = session.user) == null ? void 0 : _a.role) === "admin") {
@@ -2581,9 +2519,9 @@ const index_delete = defineEventHandler(async (event) => {
   }
 });
 
-const index_delete$1 = /*#__PURE__*/Object.freeze({
+const index_delete$3 = /*#__PURE__*/Object.freeze({
   __proto__: null,
-  default: index_delete
+  default: index_delete$2
 });
 
 const index_get$4 = defineEventHandler(async (event) => {
@@ -2652,7 +2590,7 @@ const index_get$3 = /*#__PURE__*/Object.freeze({
   default: index_get$2
 });
 
-const index_post = defineEventHandler(async (event) => {
+const index_post$2 = defineEventHandler(async (event) => {
   const cyrillicToTranslit = CyrillicToTranslit({ preset: "uk" });
   const session = await requireUserSession(event);
   const user = session.user;
@@ -2685,6 +2623,75 @@ const index_post = defineEventHandler(async (event) => {
       statusCode: 401,
       statusMessage: "\u0423 \u0434\u043E\u0441\u0442\u0443\u043F\u0456 \u0432\u0456\u0434\u043C\u043E\u0432\u043B\u0435\u043D\u043E. \u0412\u0438 \u043D\u0435 \u0430\u0432\u0442\u043E\u0440\u0438\u0437\u043E\u0432\u0430\u043D\u0456 \u044F\u043A \u0430\u0434\u043C\u0456\u043D\u0456\u0441\u0442\u0440\u0430\u0442\u043E\u0440"
     });
+  }
+});
+
+const index_post$3 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: index_post$2
+});
+
+const index_delete = defineEventHandler(async (event) => {
+  const { fileName } = getQuery$1(event);
+  console.log(fileName);
+  return fileName;
+});
+
+const index_delete$1 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: index_delete
+});
+
+const index_post = defineEventHandler(async (event) => {
+  try {
+    const files = await readMultipartFormData(event);
+    const { bookName, authorIds } = getQuery$1(event);
+    if (!files) {
+      return createError({ statusCode: 400, statusMessage: "No files uploaded" });
+    }
+    console.log(bookName);
+    console.log(authorIds);
+    const author = await db.author.findFirst({
+      where: {
+        id: authorIds
+      }
+    });
+    console.log(author);
+    const authorSlug = toSlug(author == null ? void 0 : author.name);
+    const authorUpSlug = toUpSlug(author == null ? void 0 : author.name);
+    const bookSlug = toSlug(author == null ? void 0 : author.name);
+    const bookUpSlug = toUpSlug(author == null ? void 0 : author.name);
+    const dir = path.join("public/books", files[0].name);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir);
+    }
+    const bookPaths = [];
+    files.forEach((file, index) => {
+      const { filename, data, type, name } = file;
+      if (!filename || !data || !type || !name) {
+        return createError({ statusCode: 400, statusMessage: "Invalid file" });
+      }
+      if (type.startsWith("image")) {
+        try {
+          const imageName = name + `_${index}.webp`;
+          sharp(data).resize(300, 450, { fit: "fill" }).webp({ quality: 80 }).toFile(path.join(dir, imageName));
+          bookPaths.push(imageName);
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        try {
+          fs.writeFileSync(path.join(dir, filename), data);
+          bookPaths.push(filename);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    });
+    return ["2"];
+  } catch (error) {
+    console.log(error);
+    return createError({ statusCode: 500, statusMessage: "Something went wrong" });
   }
 });
 

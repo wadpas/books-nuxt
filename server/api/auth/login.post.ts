@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
 
   if (!currentUser) {
     throw createError({
-      statusCode: 402,
+      statusCode: 400,
       statusMessage: 'Невірні облікові дані',
     })
   }
@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
     if (userOAuthAccount) {
       const oAuthProvider = userOAuthAccount.providerId
       throw createError({
-        statusCode: 403,
+        statusCode: 400,
         statusMessage: `Please login with ${oAuthProvider}`,
       })
     }
@@ -37,7 +37,7 @@ export default defineEventHandler(async (event) => {
     const isPasswordCorrect = await verifyPassword(currentUser.password, password)
     if (!isPasswordCorrect) {
       throw createError({
-        statusCode: 401,
+        statusCode: 400,
         statusMessage: 'Невірні облікові дані',
       })
     }

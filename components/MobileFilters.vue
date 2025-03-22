@@ -1,7 +1,7 @@
 <template>
   <Sheet>
     <SheetTrigger as-child>
-      <Button class="rounded-full lg:hidden">
+      <Button class="mb-4 rounded-full lg:hidden">
         <Icon
           name="lucide:settings-2"
           size="24" />

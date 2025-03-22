@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
   if (currentUser) {
     throw createError({
       statusCode: 400,
-      statusMessage: 'User already exists',
+      statusMessage: `Користувач з поштою ${email} вже існує`,
     })
   }
 

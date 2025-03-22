@@ -1,10 +1,10 @@
 <template>
-  <div class="lg:grid lg:grid-cols-5 lg:gap-x-8">
+  <div class="lg:grid lg:grid-cols-12 lg:gap-8">
     <MobileFilters
       :genres="genres"
       :authors="authors">
     </MobileFilters>
-    <div class="hidden lg:block">
+    <div class="hidden lg:block lg:col-span-2">
       <Filter
         valueKey="genre"
         name="Жанри"
@@ -14,7 +14,7 @@
         name="Автори"
         :data="authors" />
     </div>
-    <div class="lg:col-span-4">
+    <div class="lg:col-span-10">
       <BookGrid :books="books || []" />
     </div>
   </div>

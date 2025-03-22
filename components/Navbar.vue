@@ -19,8 +19,7 @@
                   <Icon
                     name="lucide:list"
                     size="26"
-                    class="hover:scale-105">
-                  </Icon>
+                    class="hover:scale-105" />
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
@@ -31,8 +30,7 @@
                 <DropdownMenuItem>
                   <Icon
                     name="lucide:book-open"
-                    size="20">
-                  </Icon>
+                    size="20" />
                   Книги
                 </DropdownMenuItem>
               </NuxtLink>
@@ -40,8 +38,7 @@
                 <DropdownMenuItem>
                   <Icon
                     name="lucide:users-round"
-                    size="20">
-                  </Icon>
+                    size="20" />
                   Автори
                 </DropdownMenuItem>
               </NuxtLink>
@@ -49,8 +46,7 @@
                 <DropdownMenuItem>
                   <Icon
                     name="lucide:drama"
-                    size="20">
-                  </Icon>
+                    size="20" />
                   Жанри
                 </DropdownMenuItem>
               </NuxtLink>
@@ -65,8 +61,7 @@
                   <Icon
                     name="lucide:circle-user"
                     size="26"
-                    class="hover:scale-105">
-                  </Icon>
+                    class="hover:scale-105" />
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>

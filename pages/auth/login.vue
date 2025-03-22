@@ -18,6 +18,8 @@
                 v-model="form.email"
                 required />
             </div>
+
+            {{ form.email }}
             <div class="grid gap-2">
               <Label for="password">Пароль</Label>
               <Input
@@ -55,6 +57,7 @@
 </template>
 
 <script setup lang="ts">
+  // Zod schema??
   import { toast } from '~/components/ui/toast'
   import type { APIError } from '~/types'
 
@@ -63,6 +66,7 @@
   type Payload = {
     email: string
     password: string
+    repeatPassword?: string
   }
 
   const form = ref<Payload>({
@@ -71,6 +75,10 @@
   })
 
   const onSubmit = async () => {
+    form.value.email = form.value.email.trim()
+    form.value.password = form.value.password.trim()
+    form.value.repeatPassword = form.value.password
+
     try {
       await $fetch('/api/auth/login', {
         method: 'POST',
@@ -83,12 +91,14 @@
       await refreshSession()
       await navigateTo('/')
       navigateTo('/')
-    } catch (error: unknown) {
-      const err = error as APIError
+    } catch (error: any) {
+      console.log(error.data)
+
+      // toast with trans!!
       toast({
         variant: 'destructive',
-        title: ` Помилка ${err.statusCode}`,
-        description: err.message,
+        title: `Помилка`,
+        description: `${error.statusMessage}`,
       })
     }
   }

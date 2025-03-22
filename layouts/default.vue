@@ -1,7 +1,7 @@
 <template>
   <div>
     <Navbar />
-    <div class="h-screen mx-auto max-w-[1600px] p-4">
+    <div class="min-h-screen mx-auto max-w-[1600px] p-4">
       <slot />
     </div>
   </div>

@@ -26,6 +26,15 @@
                 v-model="form.password"
                 required />
             </div>
+            <div class="grid gap-2">
+              <Label for="password">Підтвердіть Пароль</Label>
+              <Input
+                id="repeatPassword"
+                type="password"
+                placeholder="*********"
+                v-model="form.repeatPassword"
+                required />
+            </div>
             <div class="grid grid-cols-1 mt-2">
               <AuthSocialButton
                 icon="uil:github"
@@ -55,21 +64,26 @@
 
 <script setup lang="ts">
   import { toast } from '~/components/ui/toast'
-  import type { APIError } from '~/types'
 
-  const { loggedIn, user, fetch: refreshSession } = useUserSession()
+  const { user, fetch: refreshSession } = useUserSession()
 
   type Payload = {
     email: string
     password: string
+    repeatPassword: string
   }
 
   const form = ref<Payload>({
     email: '',
     password: '',
+    repeatPassword: '',
   })
 
   const onSubmit = async () => {
+    form.value.email = form.value.email.trim()
+    form.value.password = form.value.password.trim()
+    form.value.repeatPassword = form.value.repeatPassword.trim()
+
     try {
       await $fetch('/api/auth/register', {
         method: 'POST',
@@ -80,14 +94,15 @@
         description: `Вітаємо ${user.value} на сайті!`,
       })
       await refreshSession()
-      await navigateTo('/')
       navigateTo('/')
-    } catch (error: unknown) {
-      const err = error as APIError
+    } catch (error: any) {
+      console.log(error.data)
+
+      // toast with trans!!
       toast({
         variant: 'destructive',
-        title: ` Помилка ${err.statusCode}`,
-        description: err.message,
+        title: `Помилка`,
+        description: `${error.statusMessage}`,
       })
     }
   }

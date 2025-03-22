@@ -19,13 +19,17 @@ export default defineNuxtConfig({
     },
   },
   routeRules: {
+    '/auth': {
+      // Temporary redirect using a 307 status code
+      redirect: '/auth/login',
+    },
     '/': {
       // Temporary redirect using a 307 status code
       redirect: '/books',
     },
-    '/auth': {
+    '/admin': {
       // Temporary redirect using a 307 status code
-      redirect: '/auth/login',
+      redirect: '/admin/books',
     },
   },
   runtimeConfig: {

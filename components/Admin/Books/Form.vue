@@ -198,9 +198,9 @@
             <FormLabel>Обкладинка</FormLabel>
             <FormControl>
               <FileUpload
-                :bookName="toSlug(form.values.title)"
-                buttonName="Обкладинка"
-                @on-change="(id) => resetField({ value: [...componentField.modelValue, ...id] })"
+                :bookName="form.values.title"
+                :authorIds="form.values.authorIds"
+                @on-change="(id) => resetField({ value: id })"
                 :value="componentField.modelValue" />
             </FormControl>
             <FormDescription />
@@ -214,9 +214,9 @@
             <FormLabel>Файл</FormLabel>
             <FormControl>
               <FileUpload
-                :bookName="toSlug(form.values.title)"
-                buttonName="Обкладинка"
-                @on-change="(id) => resetField({ value: [...componentField.modelValue, ...id] })"
+                :bookName="form.values.title"
+                :authorIds="form.values.authorIds"
+                @on-change="(id) => resetField({ value: id })"
                 :value="componentField.modelValue" />
             </FormControl>
             <FormDescription />
@@ -235,7 +235,6 @@
       </div>
     </form>
   </div>
-  {{ form.values }}
   <AlertModal
     :isModalVisible="isModalVisible"
     @on-close="isModalVisible = false"

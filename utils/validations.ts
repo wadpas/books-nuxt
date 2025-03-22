@@ -1,9 +1,15 @@
 import { z } from 'zod'
 
-export const authSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-})
+export const authSchema = z
+  .object({
+    email: z.string().email(),
+    password: z.string().min(8),
+    repeatPassword: z.string().min(8),
+  })
+  .refine((data) => data.password === data.repeatPassword, {
+    message: 'Паролі не співпадають',
+    path: ['repeatPassword'],
+  })
 
 export const genreSchema = z.object({
   name: z.string().min(1, { message: 'Введіть назву жанру' }),
