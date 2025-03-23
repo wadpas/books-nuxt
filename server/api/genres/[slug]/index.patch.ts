@@ -1,14 +1,14 @@
-import db from '~/server/utils/db'
-import CyrillicToTranslit from 'cyrillic-to-translit-js'
+import { db } from '~/server/utils/db'
 import { genreSchema } from '~/utils/validations'
+import type { User } from '@prisma/client'
+import { toSlug } from '~/utils/slug'
 
 export default defineEventHandler(async (event) => {
-  const session = await requireUserSession(event)
-  const cyrillicToTranslit = CyrillicToTranslit({ preset: 'uk' })
+  const user = (await requireUserSession(event)).user as User
 
-  if (session.user && session.user?.role === 'admin') {
+  if (user && user?.role === 'admin') {
     const { name } = await readValidatedBody(event, (body) => genreSchema.parse(body))
-    const slug = cyrillicToTranslit.transform(name.trim(), '-').replaceAll('.', '').replaceAll(',', '').toLowerCase()
+    const slug = toSlug(name)
 
     try {
       const genre = await db.genre.update({

@@ -1,11 +1,10 @@
-import db from '~/server/utils/db'
+import { db } from '~/server/utils/db'
 import { bookSchema } from '~/utils/validations'
 import type { User } from '@prisma/client'
 import { toSlug } from '~/utils/slug'
 
 export default defineEventHandler(async (event) => {
-  const session = await requireUserSession(event)
-  const user = session.user as User
+  const user = (await requireUserSession(event)).user as User
 
   if (user && user?.role === 'admin') {
     const { title, description, year, pages, genreIds, coverPaths, authorIds, price, isFeatured, isAvailable } =

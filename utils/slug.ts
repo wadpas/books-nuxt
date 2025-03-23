@@ -11,7 +11,6 @@ export function toUpSlug(str: string) {
     .replaceAll(';', '')
     .replaceAll('?', '')
     .replaceAll('!', '')
-    .toLowerCase()
 }
 
 export function toSlug(str: string) {

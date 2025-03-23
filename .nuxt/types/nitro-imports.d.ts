@@ -20,7 +20,7 @@ declare global {
   const createEvent: typeof import('../../node_modules/h3')['createEvent']
   const createEventStream: typeof import('../../node_modules/h3')['createEventStream']
   const createRouter: typeof import('../../node_modules/h3')['createRouter']
-  const db: typeof import('../../server/utils/db')['default']
+  const db: typeof import('../../server/utils/db')['db']
   const defaultContentType: typeof import('../../node_modules/h3')['defaultContentType']
   const defineAppConfig: typeof import('../../node_modules/nuxt/dist/core/runtime/nitro/config')['defineAppConfig']
   const defineCachedEventHandler: typeof import('../../node_modules/nitropack/dist/runtime/internal/cache')['defineCachedEventHandler']
@@ -108,7 +108,6 @@ declare global {
   const getValidatedRouterParams: typeof import('../../node_modules/h3')['getValidatedRouterParams']
   const handleCacheHeaders: typeof import('../../node_modules/h3')['handleCacheHeaders']
   const handleCors: typeof import('../../node_modules/h3')['handleCors']
-  const handleError: typeof import('../../server/utils/error')['handleError']
   const hashPassword: typeof import('../../node_modules/nuxt-auth-utils/dist/runtime/server/utils/password')['hashPassword']
   const isCorsOriginAllowed: typeof import('../../node_modules/h3')['isCorsOriginAllowed']
   const isError: typeof import('../../node_modules/h3')['isError']
@@ -134,7 +133,7 @@ declare global {
   const runTask: typeof import('../../node_modules/nitropack/dist/runtime/internal/task')['runTask']
   const sanitizeStatusCode: typeof import('../../node_modules/h3')['sanitizeStatusCode']
   const sanitizeStatusMessage: typeof import('../../node_modules/h3')['sanitizeStatusMessage']
-  const sanitizeUser: typeof import('../../server/utils/auth')['sanitizeUser']
+  const sanitizeUser: typeof import('../../server/utils/sanitize')['sanitizeUser']
   const sealSession: typeof import('../../node_modules/h3')['sealSession']
   const send: typeof import('../../node_modules/h3')['send']
   const sendError: typeof import('../../node_modules/h3')['sendError']
@@ -331,7 +330,6 @@ export { defineOAuthZitadelEventHandler } from '../../node_modules/nuxt-auth-uti
 export { getAtprotoClientMetadata } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/utils/atproto';
 export { hashPassword, verifyPassword } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/utils/password';
 export { sessionHooks, getUserSession, setUserSession, replaceUserSession, clearUserSession, requireUserSession } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/utils/session';
-export { sanitizeUser } from '../../server/utils/auth';
-export { default as db } from '../../server/utils/db';
-export { handleError } from '../../server/utils/error';
+export { db } from '../../server/utils/db';
+export { sanitizeUser } from '../../server/utils/sanitize';
 export { stripe } from '../../server/utils/stripe';

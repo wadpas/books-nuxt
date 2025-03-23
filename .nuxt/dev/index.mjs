@@ -10,11 +10,11 @@ import { FetchError, createFetch as createFetch$1, Headers as Headers$1 } from '
 import { snakeCase, upperFirst } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/scule/dist/index.mjs';
 import { Hash } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/@adonisjs/hash/build/index.js';
 import { Scrypt } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/@adonisjs/hash/build/src/drivers/scrypt.js';
-import CyrillicToTranslit from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/cyrillic-to-translit-js/CyrillicToTranslit.js';
 import { z } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/zod/lib/index.mjs';
 import path from 'path';
 import fs from 'fs';
 import sharp from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/sharp/lib/index.js';
+import CyrillicToTranslit from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/cyrillic-to-translit-js/CyrillicToTranslit.js';
 import Stripe from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/stripe/esm/stripe.esm.node.js';
 import { PrismaClient } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/@prisma/client/default.js';
 import { getRequestDependencies, getPreloadLinks, getPrefetchLinks, createRenderer } from 'file://C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/vue-bundle-renderer/dist/runtime.mjs';
@@ -563,12 +563,6 @@ const _inlineRuntimeConfig = {
     "routeRules": {
       "/__nuxt_error": {
         "cache": false
-      },
-      "/auth": {
-        "redirect": {
-          "to": "/auth/login",
-          "statusCode": 307
-        }
       },
       "/": {
         "redirect": {
@@ -1550,13 +1544,13 @@ async function verifyPassword(hashedPassword, plainPassword) {
   return await getHash().verify(hashedPassword, plainPassword);
 }
 
+const db = new PrismaClient();
+
 const sanitizeUser = (user) => {
   if (!user) return null;
   user.password = "";
   return user;
 };
-
-const db = globalThis.prisma || new PrismaClient();
 
 const stripe = new Stripe(useRuntimeConfig().stripeSecret, {
   apiVersion: "2025-02-24.acacia",
@@ -2069,11 +2063,11 @@ const login_post = defineEventHandler(async (event) => {
       });
     }
   }
-  const transformedUser = sanitizeUser(currentUser);
+  const sanitizedUser = sanitizeUser(currentUser);
   await setUserSession(event, {
-    user: transformedUser
+    user: sanitizedUser
   });
-  return transformedUser;
+  return sanitizedUser;
 });
 
 const login_post$1 = /*#__PURE__*/Object.freeze({
@@ -2102,11 +2096,11 @@ const register_post = defineEventHandler(async (event) => {
       password: hashedPassword
     }
   });
-  const transformedUser = sanitizeUser(currentUser);
+  const sanitizedUser = sanitizeUser(currentUser);
   await setUserSession(event, {
-    user: transformedUser
+    user: sanitizedUser
   });
-  return transformedUser;
+  return sanitizedUser;
 });
 
 const register_post$1 = /*#__PURE__*/Object.freeze({
@@ -2115,13 +2109,13 @@ const register_post$1 = /*#__PURE__*/Object.freeze({
 });
 
 const index_delete$6 = defineEventHandler(async (event) => {
-  var _a, _b;
-  const session = await requireUserSession(event);
-  if (session.user && ((_a = session.user) == null ? void 0 : _a.role) === "admin") {
+  var _a;
+  const user = (await requireUserSession(event)).user;
+  if (user && user.role === "admin") {
     try {
       await db.author.delete({
         where: {
-          slug: (_b = event.context.params) == null ? void 0 : _b.slug
+          slug: (_a = event.context.params) == null ? void 0 : _a.slug
         }
       });
     } catch (error) {
@@ -2158,17 +2152,25 @@ const index_get$d = /*#__PURE__*/Object.freeze({
   default: index_get$c
 });
 
+const cyrillicToTranslit = CyrillicToTranslit({ preset: "uk" });
+function toUpSlug(str) {
+  if (!str) return "";
+  return cyrillicToTranslit.transform(str.trim(), "-").replaceAll(".", "").replaceAll(",", "").replaceAll(":", "").replaceAll(";", "").replaceAll("?", "").replaceAll("!", "");
+}
+function toSlug(str) {
+  return toUpSlug(str).toLowerCase();
+}
+
 const index_patch$4 = defineEventHandler(async (event) => {
-  var _a, _b;
-  const session = await requireUserSession(event);
-  const cyrillicToTranslit = CyrillicToTranslit({ preset: "uk" });
-  if (session.user && ((_a = session.user) == null ? void 0 : _a.role) === "admin") {
+  var _a;
+  const user = (await requireUserSession(event)).user;
+  if (user && (user == null ? void 0 : user.role) === "admin") {
     const { name } = await readValidatedBody(event, (body) => authorSchema.parse(body));
-    const slug = cyrillicToTranslit.transform(name, "-").toLowerCase();
+    const slug = toSlug(name);
     try {
       const author = await db.author.update({
         where: {
-          slug: (_b = event.context.params) == null ? void 0 : _b.slug
+          slug: (_a = event.context.params) == null ? void 0 : _a.slug
         },
         data: {
           name,
@@ -2210,12 +2212,10 @@ const index_get$b = /*#__PURE__*/Object.freeze({
 });
 
 const index_post$8 = defineEventHandler(async (event) => {
-  const cyrillicToTranslit = CyrillicToTranslit({ preset: "uk" });
-  const session = await requireUserSession(event);
-  const user = session.user;
+  const user = (await requireUserSession(event)).user;
   if (user && (user == null ? void 0 : user.role) === "admin") {
     const { name } = await readValidatedBody(event, (body) => authorSchema.parse(body));
-    const slug = cyrillicToTranslit.transform(name.trim(), "-").replaceAll(".", "").replaceAll(",", "").toLowerCase();
+    const slug = toSlug(name);
     try {
       let author = await db.author.findUnique({
         where: { slug }
@@ -2251,13 +2251,13 @@ const index_post$9 = /*#__PURE__*/Object.freeze({
 });
 
 const index_delete$4 = defineEventHandler(async (event) => {
-  var _a, _b;
-  const session = await requireUserSession(event);
-  if (session.user && ((_a = session.user) == null ? void 0 : _a.role) === "admin") {
+  var _a;
+  const user = (await requireUserSession(event)).user;
+  if (user && (user == null ? void 0 : user.role) === "admin") {
     try {
       await db.book.delete({
         where: {
-          slug: (_b = event.context.params) == null ? void 0 : _b.slug
+          slug: (_a = event.context.params) == null ? void 0 : _a.slug
         }
       });
     } catch (error) {
@@ -2300,10 +2300,8 @@ const index_get$9 = /*#__PURE__*/Object.freeze({
 
 const index_patch$2 = defineEventHandler(async (event) => {
   var _a;
-  const cyrillicToTranslit = CyrillicToTranslit({ preset: "uk" });
-  const session = await requireUserSession(event);
-  const sessionUser = session.user;
-  if (sessionUser && sessionUser.role === "admin") {
+  const user = (await requireUserSession(event)).user;
+  if (user && (user == null ? void 0 : user.role) === "admin") {
     const {
       title,
       description,
@@ -2317,7 +2315,7 @@ const index_patch$2 = defineEventHandler(async (event) => {
       isFeatured,
       isAvailable
     } = await readValidatedBody(event, (body) => bookSchema.parse(body));
-    const slug = cyrillicToTranslit.transform(title.trim(), "-").replaceAll(".", "").replaceAll(",", "").toLowerCase();
+    const slug = toSlug(title);
     try {
       const book = await db.book.update({
         where: {
@@ -2390,18 +2388,8 @@ const index_get$7 = /*#__PURE__*/Object.freeze({
   default: index_get$6
 });
 
-const cyrillicToTranslit = CyrillicToTranslit({ preset: "uk" });
-function toUpSlug(str) {
-  if (!str) return "";
-  return cyrillicToTranslit.transform(str.trim(), "-").replaceAll(".", "").replaceAll(",", "").replaceAll(":", "").replaceAll(";", "").replaceAll("?", "").replaceAll("!", "").toLowerCase();
-}
-function toSlug(str) {
-  return toUpSlug(str).toLowerCase();
-}
-
 const index_post$6 = defineEventHandler(async (event) => {
-  const session = await requireUserSession(event);
-  const user = session.user;
+  const user = (await requireUserSession(event)).user;
   if (user && (user == null ? void 0 : user.role) === "admin") {
     const { title, description, year, pages, genreIds, coverPaths, authorIds, price, isFeatured, isAvailable } = await readValidatedBody(event, (body) => bookSchema.parse(body));
     const slug = toSlug(title);
@@ -2496,13 +2484,13 @@ const index_post$5 = /*#__PURE__*/Object.freeze({
 });
 
 const index_delete$2 = defineEventHandler(async (event) => {
-  var _a, _b;
-  const session = await requireUserSession(event);
-  if (session.user && ((_a = session.user) == null ? void 0 : _a.role) === "admin") {
+  var _a;
+  const user = (await requireUserSession(event)).user;
+  if (user && (user == null ? void 0 : user.role) === "admin") {
     try {
       await db.genre.delete({
         where: {
-          slug: (_b = event.context.params) == null ? void 0 : _b.slug
+          slug: (_a = event.context.params) == null ? void 0 : _a.slug
         }
       });
     } catch (error) {
@@ -2540,16 +2528,15 @@ const index_get$5 = /*#__PURE__*/Object.freeze({
 });
 
 const index_patch = defineEventHandler(async (event) => {
-  var _a, _b;
-  const session = await requireUserSession(event);
-  const cyrillicToTranslit = CyrillicToTranslit({ preset: "uk" });
-  if (session.user && ((_a = session.user) == null ? void 0 : _a.role) === "admin") {
+  var _a;
+  const user = (await requireUserSession(event)).user;
+  if (user && (user == null ? void 0 : user.role) === "admin") {
     const { name } = await readValidatedBody(event, (body) => genreSchema.parse(body));
-    const slug = cyrillicToTranslit.transform(name.trim(), "-").replaceAll(".", "").replaceAll(",", "").toLowerCase();
+    const slug = toSlug(name);
     try {
       const genre = await db.genre.update({
         where: {
-          slug: (_b = event.context.params) == null ? void 0 : _b.slug
+          slug: (_a = event.context.params) == null ? void 0 : _a.slug
         },
         data: {
           name,
@@ -2591,12 +2578,10 @@ const index_get$3 = /*#__PURE__*/Object.freeze({
 });
 
 const index_post$2 = defineEventHandler(async (event) => {
-  const cyrillicToTranslit = CyrillicToTranslit({ preset: "uk" });
-  const session = await requireUserSession(event);
-  const user = session.user;
+  const user = (await requireUserSession(event)).user;
   if (user && (user == null ? void 0 : user.role) === "admin") {
     const { name } = await readValidatedBody(event, (body) => genreSchema.parse(body));
-    const slug = cyrillicToTranslit.transform(name.trim(), "-").replaceAll(".", "").replaceAll(",", "").toLowerCase();
+    const slug = toSlug(name);
     try {
       let genre = await db.genre.findUnique({
         where: { slug }
@@ -2701,13 +2686,12 @@ const index_post$1 = /*#__PURE__*/Object.freeze({
 });
 
 const index_get = defineEventHandler(async (event) => {
-  const session = await requireUserSession(event);
-  const user = session.user;
+  const user = (await requireUserSession(event)).user;
   if (user && (user == null ? void 0 : user.role) === "admin") {
     try {
       const users = await db.user.findMany({
         include: {
-          oAuthAccountIds: true
+          oAuthAccounts: true
         }
       });
       return users;

@@ -1,9 +1,10 @@
-import db from '~/server/utils/db'
+import { db } from '~/server/utils/db'
+import type { User } from '@prisma/client'
 
 export default defineEventHandler(async (event) => {
-  const session = await requireUserSession(event)
+  const user = (await requireUserSession(event)).user as User
 
-  if (session.user && session.user?.role === 'admin') {
+  if (user && user?.role === 'admin') {
     try {
       await db.book.delete({
         where: {

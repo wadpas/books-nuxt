@@ -1,15 +1,14 @@
-import db from '~/server/utils/db'
+import { db } from '~/server/utils/db'
 import type { User } from '@prisma/client'
 
 export default defineEventHandler(async (event) => {
-  const session = await requireUserSession(event)
-  const user = session.user as User
+  const user = (await requireUserSession(event)).user as User
 
   if (user && user?.role === 'admin') {
     try {
       const users = await db.user.findMany({
         include: {
-          oAuthAccountIds: true,
+          oAuthAccounts: true,
         },
       })
       return users

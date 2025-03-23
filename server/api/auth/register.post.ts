@@ -1,4 +1,5 @@
-import db from '~/server/utils/db'
+import { db } from '~/server/utils/db'
+import type { User } from '@prisma/client'
 import { authSchema } from '~/utils/validations'
 
 export default defineEventHandler(async (event) => {
@@ -27,10 +28,10 @@ export default defineEventHandler(async (event) => {
     },
   })
 
-  const transformedUser = sanitizeUser(currentUser)
+  const sanitizedUser = sanitizeUser(currentUser)
 
   await setUserSession(event, {
-    user: transformedUser!,
+    user: sanitizedUser as User,
   })
-  return transformedUser
+  return sanitizedUser
 })

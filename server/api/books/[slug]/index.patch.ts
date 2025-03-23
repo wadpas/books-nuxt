@@ -1,14 +1,12 @@
-import db from '~/server/utils/db'
-import CyrillicToTranslit from 'cyrillic-to-translit-js'
+import { db } from '~/server/utils/db'
 import { bookSchema } from '~/utils/validations'
 import type { User } from '@prisma/client'
+import { toSlug } from '~/utils/slug'
 
 export default defineEventHandler(async (event) => {
-  const cyrillicToTranslit = CyrillicToTranslit({ preset: 'uk' })
-  const session = await requireUserSession(event)
-  const sessionUser = session.user as User
+  const user = (await requireUserSession(event)).user as User
 
-  if (sessionUser && sessionUser.role === 'admin') {
+  if (user && user?.role === 'admin') {
     const {
       title,
       description,
@@ -22,7 +20,8 @@ export default defineEventHandler(async (event) => {
       isFeatured,
       isAvailable,
     } = await readValidatedBody(event, (body) => bookSchema.parse(body))
-    const slug = cyrillicToTranslit.transform(title.trim(), '-').replaceAll('.', '').replaceAll(',', '').toLowerCase()
+
+    const slug = toSlug(title)
 
     try {
       const book = await db.book.update({
