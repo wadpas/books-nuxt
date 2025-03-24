@@ -13,9 +13,6 @@ export default defineEventHandler(async (event) => {
       return createError({ statusCode: 400, statusMessage: 'No files uploaded' })
     }
 
-    console.log(bookName)
-    console.log(authorIds)
-
     // !!! authorIds is Array
     const author = await db.author.findFirst({
       where: {
@@ -23,17 +20,24 @@ export default defineEventHandler(async (event) => {
       },
     })
 
-    console.log(author)
+    if (!author) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: 'Автора не існує',
+      })
+    }
 
-    const authorSlug = toSlug(author?.name as string)
-    const authorUpSlug = toUpSlug(author?.name as string)
-    const bookSlug = toSlug(author?.name as string)
-    const bookUpSlug = toUpSlug(author?.name as string)
+    const authorSlug = toSlug(author.name as string)
+    const authorUpSlug = toUpSlug(author.name as string)
+    const bookSlug = toSlug(bookName as string)
+    const bookUpSlug = toUpSlug(bookName as string)
+    const dirPath = `${authorSlug}/${bookSlug}`
+    const fullName = `${authorUpSlug}_${bookUpSlug}`
 
-    const dir = path.join('public/books', files[0].name as string)
+    const dir = path.join('public/books', dirPath)
 
     if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir)
+      fs.promises.mkdir(dir, { recursive: true })
     }
 
     const bookPaths: string[] = []
@@ -46,8 +50,20 @@ export default defineEventHandler(async (event) => {
       }
 
       if (type.startsWith('image')) {
+        let imageName = ''
+
         try {
-          const imageName = name + `_${index}.webp`
+          switch (index) {
+            case 0:
+              imageName = fullName + '_front.webp'
+              break
+            case 1:
+              imageName = fullName + '_back.webp'
+              break
+
+            default:
+              break
+          }
           sharp(data).resize(300, 450, { fit: 'fill' }).webp({ quality: 80 }).toFile(path.join(dir, imageName))
           bookPaths.push(imageName)
         } catch (error) {
@@ -55,15 +71,16 @@ export default defineEventHandler(async (event) => {
         }
       } else {
         try {
-          fs.writeFileSync(path.join(dir, filename), data)
-          bookPaths.push(filename)
+          const fileName = fullName + path.extname(filename)
+          fs.writeFileSync(path.join(dir, fullName + path.extname(filename)), data)
+          bookPaths.push(fileName)
         } catch (error) {
           console.log(error)
         }
       }
     })
 
-    return ['2']
+    return bookPaths
   } catch (error) {
     console.log(error)
     return createError({ statusCode: 500, statusMessage: 'Something went wrong' })

@@ -11,6 +11,10 @@ export function toUpSlug(str: string) {
     .replaceAll(';', '')
     .replaceAll('?', '')
     .replaceAll('!', '')
+    .replaceAll('"', '')
+    .replaceAll("'", '')
+    .replaceAll('«', '')
+    .replaceAll('»', '-')
 }
 
 export function toSlug(str: string) {

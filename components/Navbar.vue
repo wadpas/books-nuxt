@@ -12,7 +12,7 @@
       </NuxtLink>
       <nav class="flex items-center space-x-4 lg:space-x-6">
         <template v-if="user">
-          <DropdownMenu v-if="user.role === 'admin'">
+          <DropdownMenu v-if="(user as User).role === 'admin'">
             <DropdownMenuTrigger as-child>
               <Button class="relative w-6 h-6 rounded-full">
                 <Avatar class="bg-white">
@@ -68,7 +68,7 @@
             <DropdownMenuContent
               class="w-36"
               align="end">
-              <DropdownMenuLabel>Вітаємо, {{ user.username }}!</DropdownMenuLabel>
+              <DropdownMenuLabel>Вітаємо, {{ (user as User).username }}!</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem @click="logout">
                 <Icon
@@ -106,6 +106,8 @@
 </template>
 
 <script setup lang="ts">
+  import type { User } from '@prisma/client'
+
   const { user, clear } = useUserSession()
 
   const { books: cartBooks } = useCart()

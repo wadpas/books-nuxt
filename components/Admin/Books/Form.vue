@@ -271,9 +271,10 @@
   const form = useForm({
     validationSchema: formSchema,
     initialValues: currentBook.value || {
-      authorIds: ['67c341fee522d2b09b3b6018'],
-      genreIds: ['67c2135c91b0cc8a184ea7c1'],
-      description: 'Nuxt',
+      title: '',
+      authorIds: [],
+      genreIds: [],
+      description: '',
       pages: 500,
       price: 399,
       year: 2020,

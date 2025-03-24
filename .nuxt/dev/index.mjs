@@ -1547,8 +1547,7 @@ async function verifyPassword(hashedPassword, plainPassword) {
 const db = new PrismaClient();
 
 const sanitizeUser = (user) => {
-  if (!user) return null;
-  user.password = "";
+  user.password = null;
   return user;
 };
 
@@ -2155,7 +2154,7 @@ const index_get$d = /*#__PURE__*/Object.freeze({
 const cyrillicToTranslit = CyrillicToTranslit({ preset: "uk" });
 function toUpSlug(str) {
   if (!str) return "";
-  return cyrillicToTranslit.transform(str.trim(), "-").replaceAll(".", "").replaceAll(",", "").replaceAll(":", "").replaceAll(";", "").replaceAll("?", "").replaceAll("!", "");
+  return cyrillicToTranslit.transform(str.trim(), "-").replaceAll(".", "").replaceAll(",", "").replaceAll(":", "").replaceAll(";", "").replaceAll("?", "").replaceAll("!", "").replaceAll('"', "").replaceAll("'", "").replaceAll("\xAB", "").replaceAll("\xBB", "-");
 }
 function toSlug(str) {
   return toUpSlug(str).toLowerCase();
@@ -2221,7 +2220,7 @@ const index_post$8 = defineEventHandler(async (event) => {
         where: { slug }
       });
       if (author) {
-        throw new Error();
+        throw Error();
       }
       author = await db.author.create({
         data: {
@@ -2634,21 +2633,26 @@ const index_post = defineEventHandler(async (event) => {
     if (!files) {
       return createError({ statusCode: 400, statusMessage: "No files uploaded" });
     }
-    console.log(bookName);
-    console.log(authorIds);
     const author = await db.author.findFirst({
       where: {
         id: authorIds
       }
     });
-    console.log(author);
-    const authorSlug = toSlug(author == null ? void 0 : author.name);
-    const authorUpSlug = toUpSlug(author == null ? void 0 : author.name);
-    const bookSlug = toSlug(author == null ? void 0 : author.name);
-    const bookUpSlug = toUpSlug(author == null ? void 0 : author.name);
-    const dir = path.join("public/books", files[0].name);
+    if (!author) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: "\u0410\u0432\u0442\u043E\u0440\u0430 \u043D\u0435 \u0456\u0441\u043D\u0443\u0454"
+      });
+    }
+    const authorSlug = toSlug(author.name);
+    const authorUpSlug = toUpSlug(author.name);
+    const bookSlug = toSlug(bookName);
+    const bookUpSlug = toUpSlug(bookName);
+    const dirPath = `${authorSlug}/${bookSlug}`;
+    const fullName = `${authorUpSlug}_${bookUpSlug}`;
+    const dir = path.join("public/books", dirPath);
     if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir);
+      fs.promises.mkdir(dir, { recursive: true });
     }
     const bookPaths = [];
     files.forEach((file, index) => {
@@ -2657,8 +2661,18 @@ const index_post = defineEventHandler(async (event) => {
         return createError({ statusCode: 400, statusMessage: "Invalid file" });
       }
       if (type.startsWith("image")) {
+        let imageName = "";
         try {
-          const imageName = name + `_${index}.webp`;
+          switch (index) {
+            case 0:
+              imageName = fullName + "_front.webp";
+              break;
+            case 1:
+              imageName = fullName + "_back.webp";
+              break;
+            default:
+              break;
+          }
           sharp(data).resize(300, 450, { fit: "fill" }).webp({ quality: 80 }).toFile(path.join(dir, imageName));
           bookPaths.push(imageName);
         } catch (error) {
@@ -2666,14 +2680,15 @@ const index_post = defineEventHandler(async (event) => {
         }
       } else {
         try {
-          fs.writeFileSync(path.join(dir, filename), data);
-          bookPaths.push(filename);
+          const fileName = fullName + path.extname(filename);
+          fs.writeFileSync(path.join(dir, fullName + path.extname(filename)), data);
+          bookPaths.push(fileName);
         } catch (error) {
           console.log(error);
         }
       }
     });
-    return ["2"];
+    return bookPaths;
   } catch (error) {
     console.log(error);
     return createError({ statusCode: 500, statusMessage: "Something went wrong" });

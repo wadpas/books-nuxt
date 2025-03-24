@@ -21,8 +21,6 @@
     authorIds: string[]
   }>()
 
-  console.log(authorIds)
-
   const files = ref<FileList | null>(null)
 
   const emits = defineEmits(['onChange', 'onRemove'])
@@ -31,7 +29,6 @@
     try {
       files.value = (e.target as HTMLInputElement).files
       if (!bookName) return
-      console.log(files.value)
       if (files.value) {
         const formData = new FormData()
         Array.from(files.value).forEach((file, index) => {

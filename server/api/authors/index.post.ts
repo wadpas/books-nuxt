@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
         where: { slug },
       })
       if (author) {
-        throw new Error()
+        throw Error()
       }
       author = await db.author.create({
         data: {
