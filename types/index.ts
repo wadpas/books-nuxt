@@ -22,6 +22,7 @@ export type Book = {
   genres: Genre[]
   description: string
   coverPaths: string[]
+  filePaths: string[]
   year: number
   pages: number
   price: number

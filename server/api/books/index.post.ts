@@ -7,8 +7,19 @@ export default defineEventHandler(async (event) => {
   const user = (await requireUserSession(event)).user as User
 
   if (user && user?.role === 'admin') {
-    const { title, description, year, pages, genreIds, coverPaths, authorIds, price, isFeatured, isAvailable } =
-      await readValidatedBody(event, (body) => bookSchema.parse(body))
+    const {
+      title,
+      description,
+      year,
+      filePaths,
+      pages,
+      genreIds,
+      coverPaths,
+      authorIds,
+      price,
+      isFeatured,
+      isAvailable,
+    } = await readValidatedBody(event, (body) => bookSchema.parse(body))
     const slug = toSlug(title)
 
     try {
@@ -31,7 +42,7 @@ export default defineEventHandler(async (event) => {
           pages,
           genreIds,
           authorIds,
-          filePaths: [],
+          filePaths,
           price,
           creatorId: user.id,
           isFeatured,

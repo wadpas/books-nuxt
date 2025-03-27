@@ -1,11 +1,12 @@
 <template>
   <NuxtLink :to="`/books/${book.slug}`">
     <div class="relative flex flex-col justify-end rounded-sm shadow-sm">
-      <NuxtImg
-        :src="`/books/${book.authors[0].slug}/${book.slug}/${book.coverPaths[0]}`"
-        :alt="book.title"
-        class="aspect-[55/85] rounded-sm" />
-
+      <CldImage
+        class="mx-auto rounded"
+        width="200"
+        height="300"
+        :src="book.coverPaths[0]"
+        :alt="book.coverPaths[0]" />
       <div class="px-2 pt-2 pb-1 space-y-2">
         <p class="font-semibold line-clamp-1">{{ book.title }}</p>
         <p class="line-clamp-1">{{ book.authors[0].name }}</p>

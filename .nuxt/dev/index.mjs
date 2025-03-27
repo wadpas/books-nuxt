@@ -2390,7 +2390,19 @@ const index_get$7 = /*#__PURE__*/Object.freeze({
 const index_post$6 = defineEventHandler(async (event) => {
   const user = (await requireUserSession(event)).user;
   if (user && (user == null ? void 0 : user.role) === "admin") {
-    const { title, description, year, pages, genreIds, coverPaths, authorIds, price, isFeatured, isAvailable } = await readValidatedBody(event, (body) => bookSchema.parse(body));
+    const {
+      title,
+      description,
+      year,
+      filePaths,
+      pages,
+      genreIds,
+      coverPaths,
+      authorIds,
+      price,
+      isFeatured,
+      isAvailable
+    } = await readValidatedBody(event, (body) => bookSchema.parse(body));
     const slug = toSlug(title);
     try {
       let book = await db.book.findUnique({
@@ -2412,7 +2424,7 @@ const index_post$6 = defineEventHandler(async (event) => {
           pages,
           genreIds,
           authorIds,
-          filePaths: [],
+          filePaths,
           price,
           creatorId: user.id,
           isFeatured,

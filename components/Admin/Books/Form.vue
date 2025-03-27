@@ -22,21 +22,6 @@
       <div class="gap-8 md:grid md:grid-cols-3">
         <FormField
           v-slot="{ componentField }"
-          name="title">
-          <FormItem>
-            <FormLabel>Назва</FormLabel>
-            <FormControl>
-              <Input
-                type="text"
-                placeholder="Дюна"
-                v-bind="componentField" />
-            </FormControl>
-            <FormDescription />
-            <FormMessage />
-          </FormItem>
-        </FormField>
-        <FormField
-          v-slot="{ componentField }"
           name="authorIds">
           <FormItem>
             <FormLabel>Автор</FormLabel>
@@ -53,6 +38,7 @@
                   <SelectGroup>
                     <SelectItem
                       v-for="author in authors"
+                      :onclick="() => (authorName = author.name)"
                       :key="author.id"
                       :value="author.id">
                       {{ author.name }}
@@ -100,6 +86,21 @@
                 +
               </Button>
             </div>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+        <FormField
+          v-slot="{ componentField }"
+          name="title">
+          <FormItem>
+            <FormLabel>Назва</FormLabel>
+            <FormControl>
+              <Input
+                type="text"
+                placeholder="Дюна"
+                v-bind="componentField" />
+            </FormControl>
+            <FormDescription />
             <FormMessage />
           </FormItem>
         </FormField>
@@ -192,15 +193,17 @@
           </FormItem>
         </FormField>
         <FormField
+          v-if="form.values.title && form.values.authorIds[0]"
           v-slot="{ componentField, resetField }"
-          name="coverPaths">
+          name="filePaths">
           <FormItem>
-            <FormLabel>Обкладинка</FormLabel>
+            <FormLabel>Файл</FormLabel>
             <FormControl>
-              <FileUpload
-                :bookName="form.values.title"
-                :authorIds="form.values.authorIds"
-                @on-change="(id) => resetField({ value: id })"
+              <CloudinaryFileUpload
+                buttonName="up"
+                :publicId="toUpSlug(authorName + '_' + form.values.title)"
+                @on-file-upload="(id:string) => resetField({ value: [...componentField.modelValue, id] })"
+                @on-file-delete="(id:string) => resetField({ value: componentField.modelValue.filter((i:string) => i !== id) })"
                 :value="componentField.modelValue" />
             </FormControl>
             <FormDescription />
@@ -208,15 +211,18 @@
           </FormItem>
         </FormField>
         <FormField
+          v-if="form.values.title && form.values.authorIds[0]"
           v-slot="{ componentField, resetField }"
-          name="filePaths">
+          name="coverPaths">
           <FormItem>
-            <FormLabel>Файл</FormLabel>
+            <FormLabel>Обкладинка</FormLabel>
             <FormControl>
-              <FileUpload
-                :bookName="form.values.title"
+              <CloudinaryImageUpload
+                buttonName="up"
+                :publicId="toUpSlug(authorName + '_' + form.values.title)"
                 :authorIds="form.values.authorIds"
-                @on-change="(id) => resetField({ value: id })"
+                @on-image-upload="(id:string) => resetField({ value: [...componentField.modelValue, id] })"
+                @on-image-delete="(id:string) => resetField({ value: componentField.modelValue.filter((i:string) => i !== id) })"
                 :value="componentField.modelValue" />
             </FormControl>
             <FormDescription />
@@ -259,6 +265,8 @@
   const { data: authors } = await useFetch<Author[]>(`/api/authors`)
   const { data: genres } = await useFetch<Genre[]>(`/api/genres`)
 
+  let authorName = currentBook.value?.authors[0].name
+
   watchEffect(() => {
     if (route.params.slug === 'new') {
       isEditing.value = false
@@ -286,7 +294,6 @@
   })
 
   const onSubmit = form.handleSubmit(async (values) => {
-    values.price = Math.floor(values.pages * (Math.random() + 0.5))
     values.title = values.title.trim()
 
     try {

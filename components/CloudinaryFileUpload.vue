@@ -7,8 +7,8 @@
       v-slot="{ open }"
       :onError="() => {}"
       :onResult="() => {}"
-      :onSuccess="uploadImage"
-      uploadPreset="books-nuxt-cover">
+      :onSuccess="uploadFile"
+      uploadPreset="books-files">
       <Button
         class="w-full"
         type="button"
@@ -16,49 +16,50 @@
         <Icon
           size="20"
           name="mdi:cloud-upload-outline" />
-        {{ buttonName }}
+        Додати
       </Button>
     </CldUploadWidget>
-    <div class="grid grid-cols-2 gap-2 mt-2 rounded">
+    <div class="mt-2 space-y-2 rounded">
       <div
-        v-for="(imgId, i) in value"
+        v-for="(fileUrl, i) in value"
         :key="i"
         class="relative">
-        <CldImage
-          class="rounded"
-          width="250"
-          height="auto"
-          :src="imgId"
-          :alt="imgId">
-        </CldImage>
         <Button
           type="button"
           variant="destructive"
           class="absolute top-2 right-2"
-          @click="deleteFile(imgId)">
+          @click="deleteFile(fileUrl)">
           <Icon
             size="20"
             name="lucide:trash" />
         </Button>
+        {{ fileUrl }}
+        <div>
+          <a
+            :href="fileUrl"
+            class="text-sky-600">
+            Завантажити
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  defineProps<{
-    value: any[]
+  const props = defineProps<{
+    value: string[]
     publicId: string
-    buttonName: string
   }>()
 
-  const emits = defineEmits(['onChange', 'onRemove'])
+  const emits = defineEmits(['onFileUpload', 'onFileDelete'])
 
-  function uploadImage(result: any) {
-    emits('onChange', result.info.public_id)
+  function uploadFile(result: any) {
+    emits('onFileUpload', result.info.secure_url)
+    console.log(result)
   }
 
   async function deleteFile(imgId: string) {
-    emits('onRemove', imgId)
+    emits('onFileDelete', imgId)
   }
 </script>
