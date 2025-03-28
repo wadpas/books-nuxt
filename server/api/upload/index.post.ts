@@ -1,6 +1,5 @@
 import path from 'path'
 import fs from 'fs'
-import sharp from 'sharp'
 import { db } from '~/server/utils/db'
 import { toSlug, toUpSlug } from '~/utils/slug'
 
@@ -64,7 +63,7 @@ export default defineEventHandler(async (event) => {
             default:
               break
           }
-          sharp(data).resize(300, 450, { fit: 'fill' }).webp({ quality: 80 }).toFile(path.join(dir, imageName))
+          // sharp(data).resize(300, 450, { fit: 'fill' }).webp({ quality: 80 }).toFile(path.join(dir, imageName))
           bookPaths.push(imageName)
         } catch (error) {
           console.log(error)

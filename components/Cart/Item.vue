@@ -1,10 +1,13 @@
 <template>
   <div class="flex p-2 border-b">
     <div class="relative w-20 p-2 overflow-hidden rounded-sm sm:w-40">
-      <NuxtImg
-        class="aspect-[55/85]"
-        :src="book.coverPaths[0]"
-        :alt="book.title" />
+      <CldImage
+        loading="lazy"
+        class="mx-auto rounded"
+        width="200"
+        height="300"
+        :src="book.coverPath"
+        :alt="book.coverPath" />
     </div>
     <div class="relative flex items-center justify-between flex-1 p-2">
       <div class="flex flex-col w-96">

@@ -195,15 +195,14 @@
         <FormField
           v-if="form.values.title && form.values.authorIds[0]"
           v-slot="{ componentField, resetField }"
-          name="filePaths">
+          name="filePath">
           <FormItem>
             <FormLabel>Файл</FormLabel>
             <FormControl>
               <CloudinaryFileUpload
                 buttonName="up"
                 :publicId="toUpSlug(authorName + '_' + form.values.title)"
-                @on-file-upload="(id:string) => resetField({ value: [...componentField.modelValue, id] })"
-                @on-file-delete="(id:string) => resetField({ value: componentField.modelValue.filter((i:string) => i !== id) })"
+                @on-file-upload="(path:string) => resetField({ value:path })"
                 :value="componentField.modelValue" />
             </FormControl>
             <FormDescription />
@@ -213,7 +212,7 @@
         <FormField
           v-if="form.values.title && form.values.authorIds[0]"
           v-slot="{ componentField, resetField }"
-          name="coverPaths">
+          name="coverPath">
           <FormItem>
             <FormLabel>Обкладинка</FormLabel>
             <FormControl>
@@ -221,8 +220,7 @@
                 buttonName="up"
                 :publicId="toUpSlug(authorName + '_' + form.values.title)"
                 :authorIds="form.values.authorIds"
-                @on-image-upload="(id:string) => resetField({ value: [...componentField.modelValue, id] })"
-                @on-image-delete="(id:string) => resetField({ value: componentField.modelValue.filter((i:string) => i !== id) })"
+                @on-image-upload="(path:string) => resetField({ value:path })"
                 :value="componentField.modelValue" />
             </FormControl>
             <FormDescription />
@@ -285,11 +283,11 @@
       description: '',
       pages: 500,
       price: 399,
-      year: 2020,
+      year: 2023,
       isFeatured: true,
       isAvailable: true,
-      coverPaths: [],
-      filePaths: [],
+      coverPath: '',
+      filePath: '',
     },
   })
 

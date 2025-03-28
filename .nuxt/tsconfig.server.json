@@ -17,19 +17,15 @@
         "./types/nitro-imports"
       ],
       "~/*": [
-        "../*",
         "../*"
       ],
       "@/*": [
-        "../*",
         "../*"
       ],
       "~~/*": [
-        "../*",
         "../*"
       ],
       "@@/*": [
-        "../*",
         "../*"
       ],
       "nitropack/types": [
@@ -80,18 +76,6 @@
       "@/lib/utils": [
         "./shadcn-nuxt/utils"
       ],
-      "~": [
-        "./.."
-      ],
-      "@": [
-        "./.."
-      ],
-      "~~": [
-        "./.."
-      ],
-      "@@": [
-        "./.."
-      ],
       "#shared": [
         "../shared"
       ],
@@ -114,10 +98,10 @@
         "./*"
       ],
       "#internal/nuxt/paths": [
-        "../node_modules/nuxt/dist/core/runtime/nitro/paths"
+        "../node_modules/nuxt/dist/core/runtime/nitro/utils/paths"
       ],
       "#color-mode-options": [
-        "./color-mode-options"
+        "./color-mode-options.mjs"
       ],
       "#auth-utils": [
         "../node_modules/nuxt-auth-utils/dist/runtime/types/index"
@@ -128,8 +112,8 @@
       "#image/*": [
         "../node_modules/@nuxt/image/dist/runtime/*"
       ],
-      "#vue-router": [
-        "./vue-router"
+      "#unhead/composables": [
+        "../node_modules/nuxt/dist/head/runtime/composables/v3"
       ],
       "#nuxt-icon-server-bundle": [
         "./nuxt-icon-server-bundle"

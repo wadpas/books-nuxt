@@ -189,6 +189,8 @@ declare module 'nuxt/schema' {
 
    stripeWebhookSecret: string,
 
+   uploadPreset: string,
+
    nitro: {
       envPrefix: string,
    },
@@ -560,14 +562,8 @@ declare module 'nuxt/schema' {
    },
   }
   interface PublicRuntimeConfig {
-   cloudinaryCloudName: string,
-
-   uploadPreset: string,
-
-   stripeKey: string,
-
    cloudinary: {
-      cloudName: any,
+      cloudName: string,
 
       uploadPreset: any,
 

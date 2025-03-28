@@ -1,6 +1,6 @@
 declare global {
-  const __buildAssetsURL: typeof import('../../node_modules/nuxt/dist/core/runtime/nitro/paths')['buildAssetsURL']
-  const __publicAssetsURL: typeof import('../../node_modules/nuxt/dist/core/runtime/nitro/paths')['publicAssetsURL']
+  const __buildAssetsURL: typeof import('../../node_modules/nuxt/dist/core/runtime/nitro/utils/paths')['buildAssetsURL']
+  const __publicAssetsURL: typeof import('../../node_modules/nuxt/dist/core/runtime/nitro/utils/paths')['publicAssetsURL']
   const appendCorsHeaders: typeof import('../../node_modules/h3')['appendCorsHeaders']
   const appendCorsPreflightHeaders: typeof import('../../node_modules/h3')['appendCorsPreflightHeaders']
   const appendHeader: typeof import('../../node_modules/h3')['appendHeader']
@@ -22,12 +22,12 @@ declare global {
   const createRouter: typeof import('../../node_modules/h3')['createRouter']
   const db: typeof import('../../server/utils/db')['db']
   const defaultContentType: typeof import('../../node_modules/h3')['defaultContentType']
-  const defineAppConfig: typeof import('../../node_modules/nuxt/dist/core/runtime/nitro/config')['defineAppConfig']
+  const defineAppConfig: typeof import('../../node_modules/nuxt/dist/core/runtime/nitro/utils/config')['defineAppConfig']
   const defineCachedEventHandler: typeof import('../../node_modules/nitropack/dist/runtime/internal/cache')['defineCachedEventHandler']
   const defineCachedFunction: typeof import('../../node_modules/nitropack/dist/runtime/internal/cache')['defineCachedFunction']
   const defineEventHandler: typeof import('../../node_modules/h3')['defineEventHandler']
   const defineLazyEventHandler: typeof import('../../node_modules/h3')['defineLazyEventHandler']
-  const defineNitroErrorHandler: typeof import('../../node_modules/nitropack/dist/runtime/internal/error')['defineNitroErrorHandler']
+  const defineNitroErrorHandler: typeof import('../../node_modules/nitropack/dist/runtime/internal/error/utils')['defineNitroErrorHandler']
   const defineNitroPlugin: typeof import('../../node_modules/nitropack/dist/runtime/internal/plugin')['defineNitroPlugin']
   const defineNodeListener: typeof import('../../node_modules/h3')['defineNodeListener']
   const defineNodeMiddleware: typeof import('../../node_modules/h3')['defineNodeMiddleware']
@@ -289,47 +289,47 @@ export { defineRouteMeta } from 'nitropack/runtime/internal/meta';
 export { getRouteRules } from 'nitropack/runtime/internal/route-rules';
 export { useEvent } from 'nitropack/runtime/internal/context';
 export { defineTask, runTask } from 'nitropack/runtime/internal/task';
-export { defineNitroErrorHandler } from 'nitropack/runtime/internal/error';
+export { defineNitroErrorHandler } from 'nitropack/runtime/internal/error/utils';
 export { appendCorsHeaders, appendCorsPreflightHeaders, appendHeader, appendHeaders, appendResponseHeader, appendResponseHeaders, assertMethod, callNodeListener, clearResponseHeaders, clearSession, createApp, createAppEventHandler, createError, createEvent, createEventStream, createRouter, defaultContentType, defineEventHandler, defineLazyEventHandler, defineNodeListener, defineNodeMiddleware, defineRequestMiddleware, defineResponseMiddleware, defineWebSocket, defineWebSocketHandler, deleteCookie, dynamicEventHandler, eventHandler, fetchWithEvent, fromNodeMiddleware, fromPlainHandler, fromWebHandler, getCookie, getHeader, getHeaders, getMethod, getProxyRequestHeaders, getQuery, getRequestFingerprint, getRequestHeader, getRequestHeaders, getRequestHost, getRequestIP, getRequestPath, getRequestProtocol, getRequestURL, getRequestWebStream, getResponseHeader, getResponseHeaders, getResponseStatus, getResponseStatusText, getRouterParam, getRouterParams, getSession, getValidatedQuery, getValidatedRouterParams, handleCacheHeaders, handleCors, isCorsOriginAllowed, isError, isEvent, isEventHandler, isMethod, isPreflightRequest, isStream, isWebResponse, lazyEventHandler, parseCookies, promisifyNodeListener, proxyRequest, readBody, readFormData, readMultipartFormData, readRawBody, readValidatedBody, removeResponseHeader, sanitizeStatusCode, sanitizeStatusMessage, sealSession, send, sendError, sendIterable, sendNoContent, sendProxy, sendRedirect, sendStream, sendWebResponse, serveStatic, setCookie, setHeader, setHeaders, setResponseHeader, setResponseHeaders, setResponseStatus, splitCookiesString, toEventHandler, toNodeListener, toPlainHandler, toWebHandler, toWebRequest, unsealSession, updateSession, useBase, useSession, writeEarlyHints } from 'h3';
-export { buildAssetsURL as __buildAssetsURL, publicAssetsURL as __publicAssetsURL } from '../../node_modules/nuxt/dist/core/runtime/nitro/paths';
-export { defineAppConfig } from '../../node_modules/nuxt/dist/core/runtime/nitro/config';
-export { defineOAuthAppleEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/apple';
-export { defineOAuthAtlassianEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/atlassian';
-export { defineOAuthAuth0EventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/auth0';
-export { defineOAuthAuthentikEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/authentik';
-export { defineOAuthBattledotnetEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/battledotnet';
-export { defineOAuthCognitoEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/cognito';
-export { defineOAuthDiscordEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/discord';
-export { defineOAuthDropboxEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/dropbox';
-export { defineOAuthFacebookEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/facebook';
-export { defineOAuthGiteaEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/gitea';
-export { defineOAuthGitHubEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/github';
-export { defineOAuthGitLabEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/gitlab';
-export { defineOAuthGoogleEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/google';
-export { defineOAuthHubspotEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/hubspot';
-export { defineOAuthInstagramEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/instagram';
-export { defineOAuthKeycloakEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/keycloak';
-export { defineOAuthLineEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/line';
-export { defineOAuthLinearEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/linear';
-export { defineOAuthLinkedInEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/linkedin';
-export { defineOAuthMicrosoftEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/microsoft';
-export { defineOAuthPaypalEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/paypal';
-export { defineOAuthPolarEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/polar';
-export { defineOAuthSeznamEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/seznam';
-export { defineOAuthSpotifyEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/spotify';
-export { defineOAuthSteamEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/steam';
-export { defineOAuthStravaEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/strava';
-export { defineOAuthTikTokEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/tiktok';
-export { defineOAuthTwitchEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/twitch';
-export { defineOAuthVKEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/vk';
-export { defineOAuthWorkOSEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/workos';
-export { defineOAuthXEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/x';
-export { defineOAuthXSUAAEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/xsuaa';
-export { defineOAuthYandexEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/yandex';
-export { defineOAuthZitadelEventHandler } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/zitadel';
-export { getAtprotoClientMetadata } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/utils/atproto';
-export { hashPassword, verifyPassword } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/utils/password';
-export { sessionHooks, getUserSession, setUserSession, replaceUserSession, clearUserSession, requireUserSession } from '../../node_modules/nuxt-auth-utils/dist/runtime/server/utils/session';
-export { db } from '../../server/utils/db';
-export { sanitizeUser } from '../../server/utils/sanitize';
-export { stripe } from '../../server/utils/stripe';
+export { buildAssetsURL as __buildAssetsURL, publicAssetsURL as __publicAssetsURL } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt/dist/core/runtime/nitro/utils/paths';
+export { defineAppConfig } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt/dist/core/runtime/nitro/utils/config';
+export { defineOAuthAppleEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/apple';
+export { defineOAuthAtlassianEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/atlassian';
+export { defineOAuthAuth0EventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/auth0';
+export { defineOAuthAuthentikEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/authentik';
+export { defineOAuthBattledotnetEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/battledotnet';
+export { defineOAuthCognitoEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/cognito';
+export { defineOAuthDiscordEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/discord';
+export { defineOAuthDropboxEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/dropbox';
+export { defineOAuthFacebookEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/facebook';
+export { defineOAuthGiteaEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/gitea';
+export { defineOAuthGitHubEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/github';
+export { defineOAuthGitLabEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/gitlab';
+export { defineOAuthGoogleEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/google';
+export { defineOAuthHubspotEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/hubspot';
+export { defineOAuthInstagramEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/instagram';
+export { defineOAuthKeycloakEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/keycloak';
+export { defineOAuthLineEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/line';
+export { defineOAuthLinearEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/linear';
+export { defineOAuthLinkedInEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/linkedin';
+export { defineOAuthMicrosoftEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/microsoft';
+export { defineOAuthPaypalEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/paypal';
+export { defineOAuthPolarEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/polar';
+export { defineOAuthSeznamEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/seznam';
+export { defineOAuthSpotifyEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/spotify';
+export { defineOAuthSteamEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/steam';
+export { defineOAuthStravaEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/strava';
+export { defineOAuthTikTokEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/tiktok';
+export { defineOAuthTwitchEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/twitch';
+export { defineOAuthVKEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/vk';
+export { defineOAuthWorkOSEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/workos';
+export { defineOAuthXEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/x';
+export { defineOAuthXSUAAEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/xsuaa';
+export { defineOAuthYandexEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/yandex';
+export { defineOAuthZitadelEventHandler } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/lib/oauth/zitadel';
+export { getAtprotoClientMetadata } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/utils/atproto';
+export { hashPassword, verifyPassword } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/utils/password';
+export { sessionHooks, getUserSession, setUserSession, replaceUserSession, clearUserSession, requireUserSession } from 'C:/Users/Wad/Desktop/apps/books-nuxt/node_modules/nuxt-auth-utils/dist/runtime/server/utils/session';
+export { db } from 'C:/Users/Wad/Desktop/apps/books-nuxt/server/utils/db';
+export { sanitizeUser } from 'C:/Users/Wad/Desktop/apps/books-nuxt/server/utils/sanitize';
+export { stripe } from 'C:/Users/Wad/Desktop/apps/books-nuxt/server/utils/stripe';

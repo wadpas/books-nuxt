@@ -55,8 +55,8 @@ model Book {
   genreIds    String[]  @db.ObjectId
   genres      Genre[]   @relation(fields: [genreIds], references: [id])
   description String
-  filePaths   String[]
-  coverPaths  String[]
+  filePath    String
+  coverPath   String
   comments    Comment[]
   ratings     Int[]     @default([])
   year        Int

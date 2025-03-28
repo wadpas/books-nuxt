@@ -19,28 +19,16 @@
         Додати
       </Button>
     </CldUploadWidget>
-    <div class="mt-2 space-y-2 rounded">
-      <div
-        v-for="(fileUrl, i) in value"
-        :key="i"
-        class="relative">
-        <Button
-          type="button"
-          variant="destructive"
-          class="absolute top-2 right-2"
-          @click="deleteFile(fileUrl)">
-          <Icon
-            size="20"
-            name="lucide:trash" />
-        </Button>
-        {{ fileUrl }}
-        <div>
-          <a
-            :href="fileUrl"
-            class="text-sky-600">
-            Завантажити
-          </a>
-        </div>
+    <div
+      class="mt-4"
+      v-if="value">
+      {{ value }}
+      <div>
+        <a
+          :href="value"
+          class="text-sky-600">
+          Завантажити
+        </a>
       </div>
     </div>
   </div>
@@ -48,7 +36,7 @@
 
 <script setup lang="ts">
   const props = defineProps<{
-    value: string[]
+    value: string
     publicId: string
   }>()
 
@@ -57,9 +45,5 @@
   function uploadFile(result: any) {
     emits('onFileUpload', result.info.secure_url)
     console.log(result)
-  }
-
-  async function deleteFile(imgId: string) {
-    emits('onFileDelete', imgId)
   }
 </script>

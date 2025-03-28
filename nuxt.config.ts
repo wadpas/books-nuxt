@@ -2,6 +2,9 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true, componentInspector: false },
+  nitro: {
+    preset: 'cloudflare-pages',
+  },
   modules: [
     '@nuxtjs/tailwindcss',
     'shadcn-nuxt',
@@ -31,10 +34,6 @@ export default defineNuxtConfig({
   runtimeConfig: {
     stripeSecret: process.env.NUXT_PUBLIC_STRIPE_KEY,
     stripeWebhookSecret: process.env.NUXT_STRIPE_WEBHOOK_SECRET,
-    public: {
-      cloudinaryCloudName: '',
-      uploadPreset: process.env.NUXT_PUBLIC_UPLOAD_PRESET,
-      stripeKey: '',
-    },
+    uploadPreset: process.env.NUXT_PUBLIC_UPLOAD_PRESET,
   },
 })

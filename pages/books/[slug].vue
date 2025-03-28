@@ -1,13 +1,12 @@
 <template>
   <div class="flex">
-    <div class="flex flex-col m-4 space-y-4 min-w-96">
+    <div class="flex flex-col m-4 space-y-4 min-w-96 bg-zinc-50">
       <CldImage
-        v-for="imageId in book.coverPaths"
         class="mx-auto rounded"
         width="400"
         height="600"
-        :src="imageId"
-        :alt="imageId" />
+        :src="book.coverPath"
+        :alt="book.coverPath" />
     </div>
     <div class="px-2 py-2 space-y-2 min-w-96">
       <p class="font-semibold line-clamp-1">{{ book.title }}</p>
@@ -17,7 +16,7 @@
       <p class="">{{ book.price }} грн</p>
       <div>
         <a
-          :href="book.filePaths[0]"
+          :href="book.filePath"
           class="text-sky-600"
           >Завантажити
         </a>
